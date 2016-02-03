@@ -28,9 +28,6 @@
 
 #include <CGImageTools/CGImageTools.h>
 
-//#import "CGImageTools.h"
-
-
 @interface DLPhotoCaptureSessionController ()
 @property(strong,nonatomic,readwrite) AVCaptureStillImageOutput *stillCaptureImageOutput;
 @property(strong,nonatomic,readwrite) AVCaptureDeviceInput *captureDeviceInput;
