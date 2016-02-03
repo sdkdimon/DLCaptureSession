@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PhotoPickerLayerPreview">
+            <connections>
+                <outlet property="preview" destination="hNg-IF-ddP" id="g79-xS-8TF"/>
+                <outlet property="view" destination="iN0-l3-epB" id="yUA-Ph-eSc"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="505" height="740"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hNg-IF-ddP" customClass="DPCameraCaptureVideoView">
+                    <rect key="frame" x="0.0" y="0.0" width="505" height="670"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DLg-w2-jRr">
+                            <rect key="frame" x="25" y="614" width="46" height="30"/>
+                            <state key="normal" title="Button"/>
+                            <connections>
+                                <action selector="updateCamPosition:" destination="-1" eventType="touchUpInside" id="cE4-LP-qrD"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l89-Z8-Ttq">
+                            <rect key="frame" x="116" y="614" width="46" height="30"/>
+                            <state key="normal" title="Button"/>
+                            <connections>
+                                <action selector="updateFlashState:" destination="-1" eventType="touchUpInside" id="wZs-hA-UYK"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstItem="DLg-w2-jRr" firstAttribute="leading" secondItem="hNg-IF-ddP" secondAttribute="leading" constant="25" id="VLk-D2-jns"/>
+                        <constraint firstItem="l89-Z8-Ttq" firstAttribute="centerY" secondItem="DLg-w2-jRr" secondAttribute="centerY" id="WZK-Mi-6ei"/>
+                        <constraint firstItem="l89-Z8-Ttq" firstAttribute="leading" secondItem="DLg-w2-jRr" secondAttribute="trailing" constant="45" id="nOb-0x-3Y7"/>
+                        <constraint firstAttribute="bottom" secondItem="DLg-w2-jRr" secondAttribute="bottom" constant="26" id="xOY-ie-vUq"/>
+                    </constraints>
+                </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VhT-Sr-RLH">
+                    <rect key="frame" x="10" y="680" width="485" height="50"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="msd-jN-wFs"/>
+                    </constraints>
+                    <state key="normal" title="Button"/>
+                    <connections>
+                        <action selector="takePhoto:" destination="-1" eventType="touchUpInside" id="aAl-Ty-BJ2"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="VhT-Sr-RLH" secondAttribute="trailing" constant="10" id="9Ah-eL-0r5"/>
+                <constraint firstItem="hNg-IF-ddP" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="GG8-6B-HFs"/>
+                <constraint firstAttribute="bottom" secondItem="VhT-Sr-RLH" secondAttribute="bottom" constant="10" id="I57-Hg-pJP"/>
+                <constraint firstItem="VhT-Sr-RLH" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="10" id="NlF-cg-tRf"/>
+                <constraint firstItem="VhT-Sr-RLH" firstAttribute="top" secondItem="hNg-IF-ddP" secondAttribute="bottom" constant="10" id="Vjm-wE-G4u"/>
+                <constraint firstItem="hNg-IF-ddP" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="mFR-2g-CLz"/>
+                <constraint firstAttribute="trailing" secondItem="hNg-IF-ddP" secondAttribute="trailing" id="zx1-7c-TOF"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="305.5" y="197"/>
+        </view>
+    </objects>
+</document>

@@ -1,0 +1,13 @@
+PODS:
+  - CGImageTools (1.0)
+  - CGSizeAspectRatioTool (1.0)
+
+DEPENDENCIES:
+  - CGImageTools (= 1.0)
+  - CGSizeAspectRatioTool (= 1.0)
+
+SPEC CHECKSUMS:
+  CGImageTools: 46831d4624fc0db8c14f7b3ce7eb7fc566eb2ed3
+  CGSizeAspectRatioTool: f88e95b9ceec43259c29bde52cf5e9a8d3c72123
+
+COCOAPODS: 0.39.0
