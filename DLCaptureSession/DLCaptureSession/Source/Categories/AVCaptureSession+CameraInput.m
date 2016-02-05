@@ -37,23 +37,30 @@
     
 }
 
--(BOOL)setCameraInputWithPosition:(AVCaptureDevicePosition)position successHandler:(void (^)(AVCaptureDeviceInput *))successHandler errorHandler:(void (^)(NSError *))errorHandler{
+-(AVCaptureDeviceInput *)setCameraInputWithPosition:(AVCaptureDevicePosition)position error:(NSError *__autoreleasing *)error{
     AVCaptureDevice *captureVideoDevice = [AVCaptureDevice preferredVideoCaptureDeviceWithPosition:position];
-    NSError *cameraInpurInitializationError = nil;
-    AVCaptureDeviceInput *captureDeviceInput = [AVCaptureDeviceInput deviceInputWithDevice:captureVideoDevice error:&cameraInpurInitializationError];
+    AVCaptureDeviceInput *captureDeviceInput = [AVCaptureDeviceInput deviceInputWithDevice:captureVideoDevice error:error];
     
-    if(cameraInpurInitializationError){
-        errorHandler(cameraInpurInitializationError);
-        return NO;
+    if(*error != nil){
+        return nil;
     }
+    
     [self removeVideoCaptureDevicesInputs];
-    BOOL isAddedInput = [self addCaptureInput:captureDeviceInput];
-    if(isAddedInput){
-        successHandler(captureDeviceInput);
+    
+    if([self addCaptureInput:captureDeviceInput]){
+        return captureDeviceInput;
     } else{
-        errorHandler(nil);
+        *error = [[NSError alloc] initWithDomain:@"org.dlcamerasession" code:-1 userInfo:@{NSLocalizedDescriptionKey : @"CanAddCaptureDeviceInput"}];
+        return nil;
     }
-    return isAddedInput;
+    
 }
+
+-(void)setupSessionPreset:(NSString *)sessionPreset{
+    [self beginConfiguration];
+    [self setSessionPreset:sessionPreset];
+    [self commitConfiguration];
+}
+
 
 @end

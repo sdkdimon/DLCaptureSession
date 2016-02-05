@@ -23,6 +23,9 @@
 #import <AVFoundation/AVFoundation.h>
 
 @interface AVCaptureSession (CameraInput)
--(BOOL)setCameraInputWithPosition:(AVCaptureDevicePosition)position successHandler:(void (^)(AVCaptureDeviceInput *))successHandler
-                     errorHandler:(void (^)(NSError *))errorHandler;
+
+-(AVCaptureDeviceInput *)setCameraInputWithPosition:(AVCaptureDevicePosition)position error:(NSError *__autoreleasing *)error;
+
+-(void)setupSessionPreset:(NSString *)sessionPreset;
+
 @end

@@ -23,26 +23,18 @@
 #import "AVCaptureDevice+FlashMode.h"
 
 @implementation AVCaptureDevice (FlashMode)
--(BOOL)setFlashMode:(AVCaptureFlashMode)flashMode
-     successHandler:(void (^)())successHandler
-       errorHandler:(void (^)(NSError *))errorHandler{
-    
-    NSError *error = nil;
-    if ([self hasFlash] && [self isFlashModeSupported:flashMode]) {
-        if ([self lockForConfiguration:&error]) {
+
+-(void)setFlashMode:(AVCaptureFlashMode)flashMode error:(NSError *__autoreleasing *)error{
+    if([self hasFlash] && [self isFlashModeSupported:flashMode]) {
+        if([self lockForConfiguration:error]) {
             [self setFlashMode:flashMode];
             [self unlockForConfiguration];
-            if(successHandler != NULL){
-                successHandler();
-            }
-            return YES;
         }
-    } else{
-        if(errorHandler != NULL){
-            errorHandler(error);
+    }else{
+        if(error != nil){
+            *error = [[NSError alloc] initWithDomain:@"org.dlcamerasession" code:-3 userInfo:@{NSLocalizedDescriptionKey : @"DeviceHasNoFlashLight"}];
         }
     }
-    
-    return NO;
 }
+
 @end

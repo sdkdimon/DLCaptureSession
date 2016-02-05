@@ -23,8 +23,6 @@
 #import <AVFoundation/AVFoundation.h>
 
 @interface AVCaptureDevice (FlashMode)
--(BOOL)setFlashMode:(AVCaptureFlashMode)flashMode
-     successHandler:(void (^)())successHandler
-       errorHandler:(void (^)(NSError *error))errorHandler;
+-(void)setFlashMode:(AVCaptureFlashMode)flashMode error:(NSError **)error;
 
 @end

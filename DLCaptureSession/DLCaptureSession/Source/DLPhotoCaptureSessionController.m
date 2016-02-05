@@ -38,7 +38,7 @@
 
 -(void)setup{
     [super setup];
-    _cameraPosition = AVCaptureDevicePositionFront;
+    _cameraPosition = AVCaptureDevicePositionBack;
     _sessionPreset = AVCaptureSessionPresetHigh;
     _flashMode = AVCaptureFlashModeOff;
 }
@@ -47,76 +47,78 @@
 
 #pragma mark Configuration
 
--(void)configurePreloadedSession:(AVCaptureSession *)session completionHandler:(void (^)())completionHandler errorHandler:(void (^)(NSError *))errorHandler{
-    __block AVCaptureDeviceInput *cameraDeviceInput = nil;
-    if(![session setCameraInputWithPosition:[self cameraPosition] successHandler:^(AVCaptureDeviceInput *input) {
-        cameraDeviceInput = input;
-    } errorHandler:errorHandler]){return;}
+-(void)configurePreloadedSession:(AVCaptureSession *)session error:(NSError *__autoreleasing *)error{
+    
+    AVCaptureDeviceInput *cameraDeviceInput = [session setCameraInputWithPosition:_cameraPosition error:error];
+    if(*error != nil){
+        return;
+    }
+    [[cameraDeviceInput device] setFlashMode:_flashMode error:nil];
 
     AVCaptureStillImageOutput *stillImageOutput = [[AVCaptureStillImageOutput alloc] init];
     [stillImageOutput setOutputSettings:@{AVVideoCodecKey : AVVideoCodecJPEG}];
-    
     if(![session addCaptureOutput:stillImageOutput]){
-        errorHandler(nil);
+        *error = [[NSError alloc] initWithDomain:@"org.dlcamerasession" code:-2 userInfo:@{NSLocalizedDescriptionKey : @"CanAddCaptureDeviceOutput"}];
         return;
     }
-    
+    [session setupSessionPreset:_sessionPreset];
     [self setCaptureDeviceInput:cameraDeviceInput];
     [self setStillCaptureImageOutput:stillImageOutput];
-    completionHandler();
+
 }
 
 
 #pragma mark StillImageSnap
 
 -(void)snapStillImageForOrientation:(AVCaptureVideoOrientation)orientation completion:(void (^)(UIImage *))completionHandler error:(void (^)(NSError *))errorHandler{
-    dispatch_async([self sessionQueue], ^{
-        AVCaptureStillImageOutput *stillCaptureImageOutput = [self stillCaptureImageOutput];
-        AVCaptureConnection *connection = [stillCaptureImageOutput connectionWithMediaType:AVMediaTypeVideo];
-        [stillCaptureImageOutput captureStillImageAsynchronouslyFromConnection:connection completionHandler:^( CMSampleBufferRef imageDataSampleBuffer, NSError *error ) {
-            if (imageDataSampleBuffer != nil) {
-                // The sample buffer is not retained. Create image data before saving the still image.
-                NSData *imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
-                
-                CGImageRef sourceImage = CGImageCreateWithJPEGData((__bridge CFDataRef)imageData);
-                //Rotate image
-                CGImageRef fixRotationimage = CGImageRotateToRadians(sourceImage, [self rotateRadiansForVideoOrientation:orientation]);
-                CGImageRef outImage = fixRotationimage;
-                if([self cameraPosition] == AVCaptureDevicePositionFront){
-                    CGImageFlipDirection imageFlipDirection = CGImageFlipDirectionNone;
-                    switch (orientation) {
-                        case AVCaptureVideoOrientationLandscapeLeft:
-                        case AVCaptureVideoOrientationLandscapeRight:
-                            imageFlipDirection = CGImageFlipDirectionVertical;
-                            break;
-                        case AVCaptureVideoOrientationPortrait:
-                        case AVCaptureVideoOrientationPortraitUpsideDown:
-                            imageFlipDirection = CGImageFlipDirectionHorizontal;
-                            break;
-                        default:
-                            [NSException raise:NSInvalidArgumentException format:@"%s Unknown orientation",__PRETTY_FUNCTION__];
-                            break;
+    if([self isLoaded] && [self isRunning])  {
+        dispatch_async([self sessionQueue], ^{
+            AVCaptureStillImageOutput *stillCaptureImageOutput = [self stillCaptureImageOutput];
+            AVCaptureConnection *connection = [stillCaptureImageOutput connectionWithMediaType:AVMediaTypeVideo];
+            [stillCaptureImageOutput captureStillImageAsynchronouslyFromConnection:connection completionHandler:^( CMSampleBufferRef imageDataSampleBuffer, NSError *error ) {
+                if (imageDataSampleBuffer != nil) {
+                    // The sample buffer is not retained. Create image data before saving the still image.
+                    NSData *imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
+                    
+                    CGImageRef sourceImage = CGImageCreateWithJPEGData((__bridge CFDataRef)imageData);
+                    //Rotate image
+                    CGImageRef fixRotationimage = CGImageRotateToRadians(sourceImage, [self rotateRadiansForVideoOrientation:orientation]);
+                    CGImageRef outImage = fixRotationimage;
+                    if([self cameraPosition] == AVCaptureDevicePositionFront){
+                        CGImageFlipDirection imageFlipDirection = CGImageFlipDirectionNone;
+                        switch (orientation) {
+                            case AVCaptureVideoOrientationLandscapeLeft:
+                            case AVCaptureVideoOrientationLandscapeRight:
+                                imageFlipDirection = CGImageFlipDirectionVertical;
+                                break;
+                            case AVCaptureVideoOrientationPortrait:
+                            case AVCaptureVideoOrientationPortraitUpsideDown:
+                                imageFlipDirection = CGImageFlipDirectionHorizontal;
+                                break;
+                            default:
+                                [NSException raise:NSInvalidArgumentException format:@"%s Unknown orientation",__PRETTY_FUNCTION__];
+                                break;
+                        }
+                        outImage = CGImageFlip(fixRotationimage, imageFlipDirection);
+                        CGImageRelease(fixRotationimage);
                     }
-                    outImage = CGImageFlip(fixRotationimage, imageFlipDirection);
-                    CGImageRelease(fixRotationimage);
+                    
+                    
+                    UIImage *image = [UIImage imageWithCGImage:outImage scale:1.0f orientation:UIImageOrientationUp];
+                    CGImageRelease(sourceImage);
+                    CGImageRelease(outImage);
+                    
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        completionHandler(image);
+                    });
+                }else {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        errorHandler(error);
+                    });
                 }
-                
-                
-                UIImage *image = [UIImage imageWithCGImage:outImage scale:1.0f orientation:UIImageOrientationUp];
-                CGImageRelease(sourceImage);
-                CGImageRelease(outImage);
-                
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    completionHandler(image);
-                });
-            }else {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    errorHandler(error);
-                });
-            }
-        }];
-    } );
-    
+            }];
+        } );
+    }
 }
 
 
@@ -129,21 +131,19 @@
     _cameraPosition = cameraPosition;
     if([self isLoaded]){
         dispatch_async([self sessionQueue], ^{
-            [[self session] setCameraInputWithPosition:cameraPosition successHandler:^(AVCaptureDeviceInput *input) {
-                [self setCaptureDeviceInput:input];
+            NSError *error = nil;
+            AVCaptureDeviceInput *cameraDeviceInput = [[self session] setCameraInputWithPosition:cameraPosition error:&error];
+            if(error == nil){
+                [self setCaptureDeviceInput:cameraDeviceInput];
+                [[cameraDeviceInput device] setFlashMode:[self flashMode] error:nil];
                 if(successHandler != NULL){
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        successHandler();
-                    });
+                    successHandler();
                 }
-            } errorHandler:^(NSError *error) {
+            } else{
                 if(errorHandler != NULL){
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        errorHandler(error);
-                    });
+                    errorHandler(error);
                 }
-
-            }];
+            }
         });
         
     } else{
@@ -162,31 +162,30 @@
      successHandler:(void (^)())successHandler
        errorHandler:(void (^)(NSError *))errorHandler{
     _flashMode = flashMode;
-    
-    AVCaptureDeviceInput *captureDeviceInput = [self captureDeviceInput];
-    
-    if(captureDeviceInput != nil){
+    if([self isLoaded]){
         dispatch_async([self sessionQueue], ^{
-            [[captureDeviceInput device] setFlashMode:flashMode successHandler:^{
+            AVCaptureDeviceInput *captureDeviceInput = [self captureDeviceInput];
+            NSError *error = nil;
+            [[captureDeviceInput device] setFlashMode:flashMode error:&error];
+            if(error == nil){
                 if(successHandler != NULL){
                     dispatch_async(dispatch_get_main_queue(), ^{
                         successHandler();
                     });
                 }
-            } errorHandler:^(NSError *error) {
+            } else{
                 if(errorHandler != NULL){
                     dispatch_async(dispatch_get_main_queue(), ^{
                         errorHandler(error);
                     });
                 }
-            }];
+            }
         });
     }else{
         if(successHandler != NULL){
             successHandler();
         }
     }
-    
 }
 
 
@@ -197,14 +196,9 @@
       completionHandler:(void (^)())completionHandler{
     
     _sessionPreset = sessionPreset;
-    
-    AVCaptureSession *captureSession = [self session];
-    
-    if(captureSession != nil){
+    if([self isLoaded]){
         dispatch_async([self sessionQueue], ^{
-            [captureSession beginConfiguration];
-            [captureSession setSessionPreset:sessionPreset];
-            [captureSession commitConfiguration];
+            [[self session] setupSessionPreset:sessionPreset];
             if(completionHandler != NULL){
                 dispatch_async(dispatch_get_main_queue(), ^{
                     completionHandler();

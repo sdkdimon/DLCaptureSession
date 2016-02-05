@@ -36,6 +36,6 @@
 
 -(void)loadSessionWithCompletion:(void(^)(AVCaptureSession *session))completionHandler error:(void(^)(NSError *error))errorHandler;
 
--(void)configurePreloadedSession:(AVCaptureSession *)session completionHandler:(void(^)())completionHandler errorHandler:(void (^)(NSError *))errorHandler;
+-(void)configurePreloadedSession:(AVCaptureSession *)session error:(NSError **)error;
 
 @end

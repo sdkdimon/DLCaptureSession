@@ -53,23 +53,22 @@
     [AVCaptureDevice authorizeCameraCompletionHandler:^(BOOL granted) {
         if(granted){
             dispatch_queue_t captureSessionQueue = dispatch_queue_create("capture_queue", DISPATCH_QUEUE_SERIAL);
-            
             dispatch_async(captureSessionQueue, ^{
                 AVCaptureSession *captureSession = [[AVCaptureSession alloc] init];
-                
-                [self configurePreloadedSession:captureSession completionHandler:^{
+                NSError *error = nil;
+                [self configurePreloadedSession:captureSession error:&error];
+                if(error == nil){
                     [self setSession:captureSession];
                     [self setSessionQueue:captureSessionQueue];
+                    [self setLoaded:YES];
                     dispatch_async( dispatch_get_main_queue(), ^{
-                        [self setLoaded:YES];
                         completionHandler(captureSession);
                     });
-                } errorHandler:^(NSError *error) {
+                } else{
                     dispatch_async(dispatch_get_main_queue(), ^{
                         errorHandler(error);
                     });
-                    
-                }];
+                }
             });
         } else{
             errorHandler(nil);
@@ -80,7 +79,7 @@
 }
 
 -(void)startRunningCaptureSession{
-    if(![self isRunning]){
+    if(_loaded && !_running){
         dispatch_async(_sessionQueue, ^{
             [[self session] startRunning];
         });
@@ -88,7 +87,7 @@
 }
 
 -(void)stopRunningCaptureSession{
-    if([self isRunning]){
+    if(_loaded && _running){
         dispatch_async(_sessionQueue, ^{
             [[self session] stopRunning];
         });
@@ -101,10 +100,9 @@
     _running = running;
 }
 
--(void)configurePreloadedSession:(AVCaptureSession *)session completionHandler:(void(^)())completionHandler errorHandler:(void (^)(NSError *))errorHandler{
-    completionHandler();
+-(void)configurePreloadedSession:(AVCaptureSession *)session error:(NSError *__autoreleasing *)error{
+    
 }
-
 
 
 @end

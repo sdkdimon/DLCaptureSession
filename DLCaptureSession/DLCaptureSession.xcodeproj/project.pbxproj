@@ -10,7 +10,7 @@
 		19C9520DC9CBFEC49C7C8639 /* libPods-DLCaptureSession.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 43E1D94E614EC815ED84C9F9 /* libPods-DLCaptureSession.a */; };
 		8A0414871C62495700DC839F /* PhotoPickerLayerPreview.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A0414851C62495700DC839F /* PhotoPickerLayerPreview.m */; };
 		8A0414881C62495700DC839F /* PhotoPickerLayerPreview.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A0414861C62495700DC839F /* PhotoPickerLayerPreview.xib */; };
-		8A04148C1C62496A00DC839F /* DPCameraCaptureVideoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A04148B1C62496A00DC839F /* DPCameraCaptureVideoView.m */; };
+		8A04148C1C62496A00DC839F /* CameraCaptureVideoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A04148B1C62496A00DC839F /* CameraCaptureVideoView.m */; };
 		8A0414911C6249A100DC839F /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A0414901C6249A100DC839F /* MainViewController.m */; };
 		8A0414981C624A1400DC839F /* PhotoPreviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A0414961C624A1400DC839F /* PhotoPreviewViewController.m */; };
 		8A0414991C624A1400DC839F /* PhotoPreviewView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A0414971C624A1400DC839F /* PhotoPreviewView.xib */; };
@@ -62,8 +62,8 @@
 		8A0414841C62495700DC839F /* PhotoPickerLayerPreview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoPickerLayerPreview.h; sourceTree = "<group>"; };
 		8A0414851C62495700DC839F /* PhotoPickerLayerPreview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoPickerLayerPreview.m; sourceTree = "<group>"; };
 		8A0414861C62495700DC839F /* PhotoPickerLayerPreview.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PhotoPickerLayerPreview.xib; sourceTree = "<group>"; };
-		8A04148A1C62496A00DC839F /* DPCameraCaptureVideoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPCameraCaptureVideoView.h; sourceTree = "<group>"; };
-		8A04148B1C62496A00DC839F /* DPCameraCaptureVideoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPCameraCaptureVideoView.m; sourceTree = "<group>"; };
+		8A04148A1C62496A00DC839F /* CameraCaptureVideoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraCaptureVideoView.h; sourceTree = "<group>"; };
+		8A04148B1C62496A00DC839F /* CameraCaptureVideoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CameraCaptureVideoView.m; sourceTree = "<group>"; };
 		8A04148F1C6249A100DC839F /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
 		8A0414901C6249A100DC839F /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		8A0414951C624A1400DC839F /* PhotoPreviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoPreviewViewController.h; sourceTree = "<group>"; };
@@ -146,8 +146,8 @@
 		8A0414891C62495F00DC839F /* LayerView */ = {
 			isa = PBXGroup;
 			children = (
-				8A04148A1C62496A00DC839F /* DPCameraCaptureVideoView.h */,
-				8A04148B1C62496A00DC839F /* DPCameraCaptureVideoView.m */,
+				8A04148A1C62496A00DC839F /* CameraCaptureVideoView.h */,
+				8A04148B1C62496A00DC839F /* CameraCaptureVideoView.m */,
 			);
 			name = LayerView;
 			sourceTree = "<group>";
@@ -486,7 +486,7 @@
 			files = (
 				8A04149D1C624A8F00DC839F /* UIDevice+AVCaptureVideoOrientation.m in Sources */,
 				8A0414911C6249A100DC839F /* MainViewController.m in Sources */,
-				8A04148C1C62496A00DC839F /* DPCameraCaptureVideoView.m in Sources */,
+				8A04148C1C62496A00DC839F /* CameraCaptureVideoView.m in Sources */,
 				8AD0EFE11C62489E005CF4FF /* AppDelegate.m in Sources */,
 				8AD0EFDE1C62489E005CF4FF /* main.m in Sources */,
 				8A0414981C624A1400DC839F /* PhotoPreviewViewController.m in Sources */,

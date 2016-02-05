@@ -21,7 +21,7 @@
 // THE SOFTWARE.
 
 #import "PhotoPickerLayerPreview.h"
-#import "DPCameraCaptureVideoView.h"
+#import "CameraCaptureVideoView.h"
 #import "PhotoPreviewViewController.h"
 #import "DLPhotoCaptureSessionController.h"
 #import "UIDevice+AVCaptureVideoOrientation.h"
@@ -29,7 +29,7 @@
 
 
 @interface PhotoPickerLayerPreview () <PhotoPreviewViewControllerDelegate>
-@property (weak, nonatomic) IBOutlet DPCameraCaptureVideoView *preview;
+@property (weak, nonatomic) IBOutlet CameraCaptureVideoView *preview;
 @property(strong,nonatomic,readwrite) DLPhotoCaptureSessionController *captureSession;
 @end
 

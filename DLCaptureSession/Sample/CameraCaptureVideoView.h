@@ -1,5 +1,5 @@
 //
-// DPCameraCaptureVideoView.m
+// DPCameraCaptureVideoView.h
 // Copyright (c) 2015 Dmitry Lizin (sdkdimon@gmail.com)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -20,40 +20,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "DPCameraCaptureVideoView.h"
+#import <UIKit/UIKit.h>
+#import <AVFoundation/AVCaptureVideoPreviewLayer.h>
 
-@implementation DPCameraCaptureVideoView
-@dynamic layer;
+@interface CameraCaptureVideoView : UIView
 
-+(Class)layerClass{
-    return [AVCaptureVideoPreviewLayer class];
-}
-
--(instancetype)initWithCoder:(NSCoder *)aDecoder{
-    self = [super initWithCoder:aDecoder];
-    if(self != nil){
-        [self setup];
-    }
-    return self;
-}
-
--(instancetype)initWithFrame:(CGRect)frame{
-    self = [super initWithFrame:frame];
-    if(self != nil){
-        [self setup];
-    }
-    return self;
-}
-
--(void)setup{
-    [[self layer] setMasksToBounds:YES];
-    [[self layer] setVideoGravity:AVLayerVideoGravityResizeAspectFill];
-}
-
--(void)setVideoOrientation:(AVCaptureVideoOrientation)videoOrientation{
-    _videoOrientation = videoOrientation;
-    [[[self layer] connection] setVideoOrientation:videoOrientation];
-}
-
+@property(strong,nonatomic,readonly) AVCaptureVideoPreviewLayer *layer;
+@property(assign,nonatomic,readwrite) AVCaptureVideoOrientation videoOrientation;
 
 @end
