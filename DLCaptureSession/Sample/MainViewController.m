@@ -22,6 +22,7 @@
 
 #import "MainViewController.h"
 #import "PhotoPickerLayerPreview.h"
+#import "QRCodeCaptureViewController.h"
 
 
 @interface MainViewController ()
@@ -43,6 +44,11 @@
     PhotoPickerLayerPreview *pp = [[PhotoPickerLayerPreview alloc] initWithNibName:@"PhotoPickerLayerPreview" bundle:nil];
     [self presentViewController:pp animated:YES completion:nil];
     
+}
+
+- (IBAction)showMetadataPicker:(id)sender{
+    QRCodeCaptureViewController *pp = [[QRCodeCaptureViewController alloc] initWithNibName:@"QRCodeCaptureViewController" bundle:nil];
+    [self presentViewController:pp animated:YES completion:nil];
 }
 
 @end

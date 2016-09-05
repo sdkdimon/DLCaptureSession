@@ -27,15 +27,20 @@
 #import "UIDevice+AVCaptureVideoOrientation.h"
 #import "CGSizeAspectRatioTool/CGSizeAspectRatioTool.h"
 
+#import "DLQRCodeCaptureSessionController.h"
+
+
 
 @interface PhotoPickerLayerPreview () <PhotoPreviewViewControllerDelegate>
 @property (weak, nonatomic) IBOutlet CameraCaptureVideoView *preview;
 @property(strong,nonatomic,readwrite) DLPhotoCaptureSessionController *captureSession;
+
+
 @end
 
 @implementation PhotoPickerLayerPreview
 
--(void)viewDidLoad{
+- (void)viewDidLoad{
     [super viewDidLoad];
     [_preview setVideoOrientation:[[UIDevice currentDevice] videoOrientation]];
     
@@ -95,7 +100,7 @@
     } error:^(NSError *error) {
         
     }];
-        
+    
 
 
 }
@@ -123,11 +128,11 @@
     
 }
 
--(void)didStartCapturingStillImage{
+- (void)didStartCapturingStillImage{
     NSLog(@"didStartCapturingStillImage");
 }
 
--(void)didFinishCapturingStillImage{
+- (void)didFinishCapturingStillImage{
     NSLog(@"didFinishCapturingStillImage");
 }
 
@@ -140,19 +145,19 @@
 }
 
 
--(void)previewViewControllerDidConfirm:(PhotoPreviewViewController *)previewViewController{
+- (void)previewViewControllerDidConfirm:(PhotoPreviewViewController *)previewViewController{
     [previewViewController dismissViewControllerAnimated:NO completion:^{
          [self dismissViewControllerAnimated:YES completion:nil];
     }];
    
 }
 
--(void)previewViewControllerDidCancel:(PhotoPreviewViewController *)previewViewController{
+- (void)previewViewControllerDidCancel:(PhotoPreviewViewController *)previewViewController{
    // [self startRunningCaptureSession];
     [previewViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
--(UIImage *)cropImage:(UIImage *)sourceImage toSize:(CGSize)size{
+- (UIImage *)cropImage:(UIImage *)sourceImage toSize:(CGSize)size{
     
     CGImageRef imageRef = [sourceImage CGImage];
 
@@ -182,7 +187,7 @@
 }
 
 
--(void)dealloc{
+- (void)dealloc{
     
 }
 

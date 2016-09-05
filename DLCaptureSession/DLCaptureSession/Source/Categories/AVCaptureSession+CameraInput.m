@@ -21,11 +21,32 @@
 // THE SOFTWARE.
 
 #import "AVCaptureSession+CameraInput.h"
-#import "AVCaptureDevice+Preferred.h"
 #import "AVCaptureSession+IO.h"
+#import "NSError+DLCaptureSession.h"
+
+@interface AVCaptureDevice (Preferred)
+
++ (AVCaptureDevice *)preferredVideoCaptureDeviceWithPosition:(AVCaptureDevicePosition)position;
+
+@end
+
+@implementation AVCaptureDevice (Preferred)
+
++ (AVCaptureDevice *)preferredVideoCaptureDeviceWithPosition:(AVCaptureDevicePosition)position{
+    NSArray <AVCaptureDevice *> *avaliableVideoCaptureDevices = [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo];
+    for (AVCaptureDevice *captureDevice in avaliableVideoCaptureDevices){
+        if ([captureDevice position] == position){
+            return captureDevice;
+        }
+    }
+    return [avaliableVideoCaptureDevices firstObject];
+}
+
+@end
 
 @implementation AVCaptureSession (CameraInput)
--(void)removeVideoCaptureDevicesInputs{
+
+- (void)removeVideoCaptureDevicesInputs{
     
     for(AVCaptureDeviceInput *inputDevice in [self inputs]){
         if([[inputDevice device] hasMediaType:AVMediaTypeVideo]){
@@ -37,7 +58,8 @@
     
 }
 
--(AVCaptureDeviceInput *)setCameraInputWithPosition:(AVCaptureDevicePosition)position error:(NSError *__autoreleasing *)error{
+- (AVCaptureDeviceInput *)setCameraInputWithPosition:(AVCaptureDevicePosition)position error:(NSError *__autoreleasing *)error{
+    
     AVCaptureDevice *captureVideoDevice = [AVCaptureDevice preferredVideoCaptureDeviceWithPosition:position];
     AVCaptureDeviceInput *captureDeviceInput = [AVCaptureDeviceInput deviceInputWithDevice:captureVideoDevice error:error];
     
@@ -50,17 +72,16 @@
     if([self addCaptureInput:captureDeviceInput]){
         return captureDeviceInput;
     } else{
-        *error = [[NSError alloc] initWithDomain:@"org.dlcamerasession" code:-1 userInfo:@{NSLocalizedDescriptionKey : @"CanAddCaptureDeviceInput"}];
+        if (error != NULL){
+            *error = [NSError errorWithType:DLCaptureSessionErrorTypeSessionAddInputDevice];
+        }
         return nil;
     }
     
 }
 
--(void)setupSessionPreset:(NSString *)sessionPreset{
-    [self beginConfiguration];
-    [self setSessionPreset:sessionPreset];
-    [self commitConfiguration];
-}
+
+
 
 
 @end

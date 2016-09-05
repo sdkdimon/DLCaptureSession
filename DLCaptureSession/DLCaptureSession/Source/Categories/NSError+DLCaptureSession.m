@@ -1,5 +1,5 @@
 //
-// AVCaptureDevice+FlashMode.h
+// NSError+DLCaptureSession.m
 // Copyright (c) 2015 Dmitry Lizin (sdkdimon@gmail.com)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -20,10 +20,23 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <AVFoundation/AVFoundation.h>
+#import "NSError+DLCaptureSession.h"
 
-@interface AVCaptureDevice (FlashMode)
+NSString * const ERROR_DOMAIN = @"org.sdkdimon.dlcapturesession";
 
-- (void)setFlashMode:(AVCaptureFlashMode)flashMode error:(NSError **)error;
+@implementation NSError (DLCaptureSession)
+
++ (NSError *)errorWithType:(DLCaptureSessionErrorType)errorType{
+    return [[NSError alloc] initWithDomain:ERROR_DOMAIN code:errorType userInfo:[[self userInfoMap] objectForKey:@(errorType)]];
+}
+
+
++ (NSDictionary <NSNumber *, NSDictionary <NSString *, NSString *> *> *)userInfoMap{
+    return @{@(DLCaptureSessionErrorTypeUauthorized) : @{NSLocalizedDescriptionKey : @"Device unautorized"},
+             @(DLCaptureSessionErrorTypeSessionAddInputDevice) : @{NSLocalizedDescriptionKey : @"Can't add input device"},
+             @(DLCaptureSessionErrorTypeSessionAddOutputDevice) : @{NSLocalizedDescriptionKey : @"Can't add output device"},
+             @(DLCaptureSessionErrorTypeDeviceNoFlashLight) : @{NSLocalizedDescriptionKey : @"Device has no flashlight"}};
+    
+}
 
 @end

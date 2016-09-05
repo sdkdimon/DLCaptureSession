@@ -23,19 +23,26 @@
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVCaptureSession.h>
 
-
 @interface DLCaptureSessionController : NSObject
 
 @property(strong,nonatomic,readonly) AVCaptureSession *session;
 @property(strong,nonatomic,readonly) dispatch_queue_t sessionQueue;
-@property(assign,nonatomic,readonly,getter=isLoaded) BOOL loaded;
+
+@property(assign,nonatomic,readonly,getter=isSessionLoaded) BOOL sessionLoaded;
 @property(assign,nonatomic,readwrite,getter=isRunning) BOOL running;
 
+- (void)loadInputsForSession:(AVCaptureSession *)session error:(NSError **)error;
+- (void)loadOutputsForSession:(AVCaptureSession *)session error:(NSError **)error;
 
--(void)setup;
+- (void)sessionDidLoad;
 
--(void)loadSessionWithCompletion:(void(^)(AVCaptureSession *session))completionHandler error:(void(^)(NSError *error))errorHandler;
+- (void)setup;
 
--(void)configurePreloadedSession:(AVCaptureSession *)session error:(NSError **)error;
+- (void)loadSessionWithCompletion:(void(^)(AVCaptureSession *session))completionHandler error:(void(^)(NSError *error))errorHandler;
+
+@property(strong,nonatomic,readonly) NSString *sessionPreset;
+- (void)setSessionPreset:(NSString *)sessionPreset
+       completionHandler:(void (^)())completionHandler;
+
 
 @end

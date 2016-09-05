@@ -25,11 +25,11 @@
 @implementation CameraCaptureVideoView
 @dynamic layer;
 
-+(Class)layerClass{
++ (Class)layerClass{
     return [AVCaptureVideoPreviewLayer class];
 }
 
--(instancetype)initWithCoder:(NSCoder *)aDecoder{
+- (instancetype)initWithCoder:(NSCoder *)aDecoder{
     self = [super initWithCoder:aDecoder];
     if(self != nil){
         [self setup];
@@ -37,7 +37,7 @@
     return self;
 }
 
--(instancetype)initWithFrame:(CGRect)frame{
+- (instancetype)initWithFrame:(CGRect)frame{
     self = [super initWithFrame:frame];
     if(self != nil){
         [self setup];
@@ -45,12 +45,12 @@
     return self;
 }
 
--(void)setup{
+- (void)setup{
     [[self layer] setMasksToBounds:YES];
     [[self layer] setVideoGravity:AVLayerVideoGravityResizeAspectFill];
 }
 
--(void)setVideoOrientation:(AVCaptureVideoOrientation)videoOrientation{
+- (void)setVideoOrientation:(AVCaptureVideoOrientation)videoOrientation{
     _videoOrientation = videoOrientation;
     [[[self layer] connection] setVideoOrientation:videoOrientation];
 }

@@ -25,8 +25,8 @@
 
 @protocol PhotoPreviewViewControllerDelegate <NSObject>
 
--(void)previewViewControllerDidConfirm:(PhotoPreviewViewController *)previewViewController;
--(void)previewViewControllerDidCancel:(PhotoPreviewViewController *)previewViewController;
+- (void)previewViewControllerDidConfirm:(PhotoPreviewViewController *)previewViewController;
+- (void)previewViewControllerDidCancel:(PhotoPreviewViewController *)previewViewController;
 
 @end
 

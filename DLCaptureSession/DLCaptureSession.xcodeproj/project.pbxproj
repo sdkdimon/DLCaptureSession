@@ -15,16 +15,18 @@
 		8A0414981C624A1400DC839F /* PhotoPreviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A0414961C624A1400DC839F /* PhotoPreviewViewController.m */; };
 		8A0414991C624A1400DC839F /* PhotoPreviewView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A0414971C624A1400DC839F /* PhotoPreviewView.xib */; };
 		8A04149D1C624A8F00DC839F /* UIDevice+AVCaptureVideoOrientation.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A04149C1C624A8F00DC839F /* UIDevice+AVCaptureVideoOrientation.m */; };
-		8A2FF8471C624D17000E6D29 /* DLCaptureSession.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8A2FF8461C624D17000E6D29 /* DLCaptureSession.h */; };
-		8A2FF8491C624D17000E6D29 /* DLCaptureSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A2FF8481C624D17000E6D29 /* DLCaptureSession.m */; };
 		8A2FF85D1C624D5C000E6D29 /* AVCaptureDevice+Authorization.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A2FF8501C624D5C000E6D29 /* AVCaptureDevice+Authorization.m */; };
 		8A2FF85E1C624D5C000E6D29 /* AVCaptureDevice+FlashMode.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A2FF8521C624D5C000E6D29 /* AVCaptureDevice+FlashMode.m */; };
-		8A2FF85F1C624D5C000E6D29 /* AVCaptureDevice+Preferred.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A2FF8541C624D5C000E6D29 /* AVCaptureDevice+Preferred.m */; };
 		8A2FF8601C624D5C000E6D29 /* AVCaptureSession+CameraInput.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A2FF8561C624D5C000E6D29 /* AVCaptureSession+CameraInput.m */; };
 		8A2FF8611C624D5C000E6D29 /* AVCaptureSession+IO.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A2FF8581C624D5C000E6D29 /* AVCaptureSession+IO.m */; };
 		8A2FF8621C624D5C000E6D29 /* DLCaptureSessionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A2FF85A1C624D5C000E6D29 /* DLCaptureSessionController.m */; };
 		8A2FF8631C624D5C000E6D29 /* DLPhotoCaptureSessionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A2FF85C1C624D5C000E6D29 /* DLPhotoCaptureSessionController.m */; };
 		8A2FF8671C624F90000E6D29 /* libDLCaptureSession.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A2FF8441C624D17000E6D29 /* libDLCaptureSession.a */; };
+		8A475ECA1D79C37C00F6D83F /* DLQRCodeCaptureSessionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A475EC91D79C37C00F6D83F /* DLQRCodeCaptureSessionController.m */; };
+		8A7CF67C1D7D5DC800B737E5 /* DLVideoInCaptureSessionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A7CF67B1D7D5DC800B737E5 /* DLVideoInCaptureSessionController.m */; };
+		8A7CF67F1D7DA53400B737E5 /* NSError+DLCaptureSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A7CF67E1D7DA53400B737E5 /* NSError+DLCaptureSession.m */; };
+		8A7CF6891D7DBC9B00B737E5 /* QRCodeCaptureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A7CF6881D7DBC9B00B737E5 /* QRCodeCaptureViewController.m */; };
+		8A7CF68B1D7DBDE800B737E5 /* QRCodeCaptureViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A7CF68A1D7DBDE800B737E5 /* QRCodeCaptureViewController.xib */; };
 		8AD0EFDE1C62489E005CF4FF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AD0EFDD1C62489E005CF4FF /* main.m */; };
 		8AD0EFE11C62489E005CF4FF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AD0EFE01C62489E005CF4FF /* AppDelegate.m */; };
 		8AD0EFE71C62489E005CF4FF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8AD0EFE51C62489E005CF4FF /* Main.storyboard */; };
@@ -50,7 +52,6 @@
 			dstPath = "include/$(PRODUCT_NAME)";
 			dstSubfolderSpec = 16;
 			files = (
-				8A2FF8471C624D17000E6D29 /* DLCaptureSession.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -72,14 +73,10 @@
 		8A04149B1C624A8F00DC839F /* UIDevice+AVCaptureVideoOrientation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice+AVCaptureVideoOrientation.h"; sourceTree = "<group>"; };
 		8A04149C1C624A8F00DC839F /* UIDevice+AVCaptureVideoOrientation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIDevice+AVCaptureVideoOrientation.m"; sourceTree = "<group>"; };
 		8A2FF8441C624D17000E6D29 /* libDLCaptureSession.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libDLCaptureSession.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		8A2FF8461C624D17000E6D29 /* DLCaptureSession.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DLCaptureSession.h; sourceTree = "<group>"; };
-		8A2FF8481C624D17000E6D29 /* DLCaptureSession.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DLCaptureSession.m; sourceTree = "<group>"; };
 		8A2FF84F1C624D5C000E6D29 /* AVCaptureDevice+Authorization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AVCaptureDevice+Authorization.h"; sourceTree = "<group>"; };
 		8A2FF8501C624D5C000E6D29 /* AVCaptureDevice+Authorization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AVCaptureDevice+Authorization.m"; sourceTree = "<group>"; };
 		8A2FF8511C624D5C000E6D29 /* AVCaptureDevice+FlashMode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AVCaptureDevice+FlashMode.h"; sourceTree = "<group>"; };
 		8A2FF8521C624D5C000E6D29 /* AVCaptureDevice+FlashMode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AVCaptureDevice+FlashMode.m"; sourceTree = "<group>"; };
-		8A2FF8531C624D5C000E6D29 /* AVCaptureDevice+Preferred.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AVCaptureDevice+Preferred.h"; sourceTree = "<group>"; };
-		8A2FF8541C624D5C000E6D29 /* AVCaptureDevice+Preferred.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AVCaptureDevice+Preferred.m"; sourceTree = "<group>"; };
 		8A2FF8551C624D5C000E6D29 /* AVCaptureSession+CameraInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AVCaptureSession+CameraInput.h"; sourceTree = "<group>"; };
 		8A2FF8561C624D5C000E6D29 /* AVCaptureSession+CameraInput.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AVCaptureSession+CameraInput.m"; sourceTree = "<group>"; };
 		8A2FF8571C624D5C000E6D29 /* AVCaptureSession+IO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AVCaptureSession+IO.h"; sourceTree = "<group>"; };
@@ -88,6 +85,15 @@
 		8A2FF85A1C624D5C000E6D29 /* DLCaptureSessionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLCaptureSessionController.m; sourceTree = "<group>"; };
 		8A2FF85B1C624D5C000E6D29 /* DLPhotoCaptureSessionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLPhotoCaptureSessionController.h; sourceTree = "<group>"; };
 		8A2FF85C1C624D5C000E6D29 /* DLPhotoCaptureSessionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLPhotoCaptureSessionController.m; sourceTree = "<group>"; };
+		8A475EC81D79C37C00F6D83F /* DLQRCodeCaptureSessionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLQRCodeCaptureSessionController.h; sourceTree = "<group>"; };
+		8A475EC91D79C37C00F6D83F /* DLQRCodeCaptureSessionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLQRCodeCaptureSessionController.m; sourceTree = "<group>"; };
+		8A7CF67A1D7D5DC800B737E5 /* DLVideoInCaptureSessionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLVideoInCaptureSessionController.h; sourceTree = "<group>"; };
+		8A7CF67B1D7D5DC800B737E5 /* DLVideoInCaptureSessionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLVideoInCaptureSessionController.m; sourceTree = "<group>"; };
+		8A7CF67D1D7DA53400B737E5 /* NSError+DLCaptureSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSError+DLCaptureSession.h"; sourceTree = "<group>"; };
+		8A7CF67E1D7DA53400B737E5 /* NSError+DLCaptureSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSError+DLCaptureSession.m"; sourceTree = "<group>"; };
+		8A7CF6871D7DBC9B00B737E5 /* QRCodeCaptureViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QRCodeCaptureViewController.h; sourceTree = "<group>"; };
+		8A7CF6881D7DBC9B00B737E5 /* QRCodeCaptureViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QRCodeCaptureViewController.m; sourceTree = "<group>"; };
+		8A7CF68A1D7DBDE800B737E5 /* QRCodeCaptureViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QRCodeCaptureViewController.xib; sourceTree = "<group>"; };
 		8AD0EFDA1C62489E005CF4FF /* Sample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8AD0EFDD1C62489E005CF4FF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		8AD0EFDF1C62489E005CF4FF /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -175,8 +181,6 @@
 			isa = PBXGroup;
 			children = (
 				8A2FF84D1C624D5C000E6D29 /* Source */,
-				8A2FF8461C624D17000E6D29 /* DLCaptureSession.h */,
-				8A2FF8481C624D17000E6D29 /* DLCaptureSession.m */,
 			);
 			path = DLCaptureSession;
 			sourceTree = "<group>";
@@ -189,6 +193,10 @@
 				8A2FF85A1C624D5C000E6D29 /* DLCaptureSessionController.m */,
 				8A2FF85B1C624D5C000E6D29 /* DLPhotoCaptureSessionController.h */,
 				8A2FF85C1C624D5C000E6D29 /* DLPhotoCaptureSessionController.m */,
+				8A475EC81D79C37C00F6D83F /* DLQRCodeCaptureSessionController.h */,
+				8A475EC91D79C37C00F6D83F /* DLQRCodeCaptureSessionController.m */,
+				8A7CF67A1D7D5DC800B737E5 /* DLVideoInCaptureSessionController.h */,
+				8A7CF67B1D7D5DC800B737E5 /* DLVideoInCaptureSessionController.m */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -196,18 +204,76 @@
 		8A2FF84E1C624D5C000E6D29 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				8A7CF6811D7DA62700B737E5 /* Device */,
+				8A7CF6801D7DA61A00B737E5 /* Session */,
+				8A7CF67D1D7DA53400B737E5 /* NSError+DLCaptureSession.h */,
+				8A7CF67E1D7DA53400B737E5 /* NSError+DLCaptureSession.m */,
+			);
+			path = Categories;
+			sourceTree = "<group>";
+		};
+		8A7CF6801D7DA61A00B737E5 /* Session */ = {
+			isa = PBXGroup;
+			children = (
+				8A7CF6851D7DA67200B737E5 /* CameraInput */,
+				8A7CF6841D7DA66B00B737E5 /* IO */,
+			);
+			name = Session;
+			sourceTree = "<group>";
+		};
+		8A7CF6811D7DA62700B737E5 /* Device */ = {
+			isa = PBXGroup;
+			children = (
+				8A7CF6831D7DA65400B737E5 /* FlashMode */,
+				8A7CF6821D7DA64A00B737E5 /* Authorization */,
+			);
+			name = Device;
+			sourceTree = "<group>";
+		};
+		8A7CF6821D7DA64A00B737E5 /* Authorization */ = {
+			isa = PBXGroup;
+			children = (
 				8A2FF84F1C624D5C000E6D29 /* AVCaptureDevice+Authorization.h */,
 				8A2FF8501C624D5C000E6D29 /* AVCaptureDevice+Authorization.m */,
+			);
+			name = Authorization;
+			sourceTree = "<group>";
+		};
+		8A7CF6831D7DA65400B737E5 /* FlashMode */ = {
+			isa = PBXGroup;
+			children = (
 				8A2FF8511C624D5C000E6D29 /* AVCaptureDevice+FlashMode.h */,
 				8A2FF8521C624D5C000E6D29 /* AVCaptureDevice+FlashMode.m */,
-				8A2FF8531C624D5C000E6D29 /* AVCaptureDevice+Preferred.h */,
-				8A2FF8541C624D5C000E6D29 /* AVCaptureDevice+Preferred.m */,
-				8A2FF8551C624D5C000E6D29 /* AVCaptureSession+CameraInput.h */,
-				8A2FF8561C624D5C000E6D29 /* AVCaptureSession+CameraInput.m */,
+			);
+			name = FlashMode;
+			sourceTree = "<group>";
+		};
+		8A7CF6841D7DA66B00B737E5 /* IO */ = {
+			isa = PBXGroup;
+			children = (
 				8A2FF8571C624D5C000E6D29 /* AVCaptureSession+IO.h */,
 				8A2FF8581C624D5C000E6D29 /* AVCaptureSession+IO.m */,
 			);
-			path = Categories;
+			name = IO;
+			sourceTree = "<group>";
+		};
+		8A7CF6851D7DA67200B737E5 /* CameraInput */ = {
+			isa = PBXGroup;
+			children = (
+				8A2FF8551C624D5C000E6D29 /* AVCaptureSession+CameraInput.h */,
+				8A2FF8561C624D5C000E6D29 /* AVCaptureSession+CameraInput.m */,
+			);
+			name = CameraInput;
+			sourceTree = "<group>";
+		};
+		8A7CF6861D7DBC6800B737E5 /* QRCodeCapturre */ = {
+			isa = PBXGroup;
+			children = (
+				8A7CF6871D7DBC9B00B737E5 /* QRCodeCaptureViewController.h */,
+				8A7CF6881D7DBC9B00B737E5 /* QRCodeCaptureViewController.m */,
+				8A7CF68A1D7DBDE800B737E5 /* QRCodeCaptureViewController.xib */,
+			);
+			name = QRCodeCapturre;
 			sourceTree = "<group>";
 		};
 		8AD0EF451C6236F2005CF4FF = {
@@ -264,6 +330,7 @@
 		8AD0EFF21C6248F3005CF4FF /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				8A7CF6861D7DBC6800B737E5 /* QRCodeCapturre */,
 				8A0414941C624A0100DC839F /* PhotoPreview */,
 				8A0414831C62494200DC839F /* PickerLayerPreview */,
 				8AD0EFF31C6248FE005CF4FF /* Main */,
@@ -381,6 +448,7 @@
 				8AD0EFE71C62489E005CF4FF /* Main.storyboard in Resources */,
 				8A0414991C624A1400DC839F /* PhotoPreviewView.xib in Resources */,
 				8A0414881C62495700DC839F /* PhotoPickerLayerPreview.xib in Resources */,
+				8A7CF68B1D7DBDE800B737E5 /* QRCodeCaptureViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -470,10 +538,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				8A2FF85E1C624D5C000E6D29 /* AVCaptureDevice+FlashMode.m in Sources */,
-				8A2FF8491C624D17000E6D29 /* DLCaptureSession.m in Sources */,
+				8A7CF67C1D7D5DC800B737E5 /* DLVideoInCaptureSessionController.m in Sources */,
 				8A2FF85D1C624D5C000E6D29 /* AVCaptureDevice+Authorization.m in Sources */,
-				8A2FF85F1C624D5C000E6D29 /* AVCaptureDevice+Preferred.m in Sources */,
+				8A7CF67F1D7DA53400B737E5 /* NSError+DLCaptureSession.m in Sources */,
 				8A2FF8611C624D5C000E6D29 /* AVCaptureSession+IO.m in Sources */,
+				8A475ECA1D79C37C00F6D83F /* DLQRCodeCaptureSessionController.m in Sources */,
 				8A2FF8601C624D5C000E6D29 /* AVCaptureSession+CameraInput.m in Sources */,
 				8A2FF8631C624D5C000E6D29 /* DLPhotoCaptureSessionController.m in Sources */,
 				8A2FF8621C624D5C000E6D29 /* DLCaptureSessionController.m in Sources */,
@@ -485,6 +554,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8A04149D1C624A8F00DC839F /* UIDevice+AVCaptureVideoOrientation.m in Sources */,
+				8A7CF6891D7DBC9B00B737E5 /* QRCodeCaptureViewController.m in Sources */,
 				8A0414911C6249A100DC839F /* MainViewController.m in Sources */,
 				8A04148C1C62496A00DC839F /* CameraCaptureVideoView.m in Sources */,
 				8AD0EFE11C62489E005CF4FF /* AppDelegate.m in Sources */,

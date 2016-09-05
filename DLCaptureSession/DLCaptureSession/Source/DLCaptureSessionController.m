@@ -22,9 +22,12 @@
 
 #import "DLCaptureSessionController.h"
 #import "AVCaptureDevice+Authorization.h"
+#import "AVCaptureSession+IO.h"
+#import "NSError+DLCaptureSession.h"
 
 @interface DLCaptureSessionController()
-@property(assign,nonatomic,readwrite,getter=isLoaded) BOOL loaded;
+
+@property(assign,nonatomic,readwrite,getter=isSessionLoaded) BOOL sessionLoaded;
 
 @property(strong,nonatomic,readwrite) AVCaptureSession *session;
 @property(strong,nonatomic,readwrite) dispatch_queue_t sessionQueue;
@@ -34,8 +37,7 @@
 
 @implementation DLCaptureSessionController
 
-
--(instancetype)init{
+- (instancetype)init{
     self = [super init];
     if(self != nil){
         [self setup];
@@ -43,51 +45,82 @@
     return self;
 }
 
--(void)setup{
+- (void)setup{
+    _sessionPreset = AVCaptureSessionPresetHigh;
     _running = NO;
-    _loaded = NO;
+    _sessionLoaded = NO;
 }
 
--(void)loadSessionWithCompletion:(void (^)(AVCaptureSession *))completionHandler error:(void (^)(NSError *))errorHandler{
+- (void)loadSessionWithCompletion:(void (^)(AVCaptureSession *))completionHandler error:(void (^)(NSError *))errorHandler{
     
     [AVCaptureDevice authorizeCameraCompletionHandler:^(BOOL granted) {
         if(granted){
             dispatch_queue_t captureSessionQueue = dispatch_queue_create("capture_queue", DISPATCH_QUEUE_SERIAL);
             dispatch_async(captureSessionQueue, ^{
                 AVCaptureSession *captureSession = [[AVCaptureSession alloc] init];
+                [captureSession setCaptureSessionPreset:[self sessionPreset]];
                 NSError *error = nil;
-                [self configurePreloadedSession:captureSession error:&error];
+                [self loadInputsForSession:captureSession error:&error];
+                if (error != nil){
+                    errorHandler(error);
+                }
+                [self loadOutputsForSession:captureSession error:&error];
+                if (error != nil){
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        errorHandler(error);
+                    });
+                    errorHandler(error);
+                }
                 if(error == nil){
                     [self setSession:captureSession];
                     [self setSessionQueue:captureSessionQueue];
-                    [self setLoaded:YES];
+                    [self setSessionLoaded:YES];
                     dispatch_async( dispatch_get_main_queue(), ^{
                         completionHandler(captureSession);
+                        [self sessionDidLoad];
                     });
                 } else{
                     dispatch_async(dispatch_get_main_queue(), ^{
+                        [self setSession:nil];
                         errorHandler(error);
                     });
                 }
             });
         } else{
-            errorHandler(nil);
+            if (errorHandler != NULL){
+                errorHandler([NSError errorWithType:DLCaptureSessionErrorTypeUauthorized]);
+            }
+            
         }
     }];
 
     
 }
 
--(void)startRunningCaptureSession{
-    if(_loaded && !_running){
+- (void)loadInputsForSession:(AVCaptureSession *)session error:(NSError *__autoreleasing *)error{
+    
+}
+    
+
+- (void)loadOutputsForSession:(AVCaptureSession *)session error:(NSError *__autoreleasing *)error{
+    
+}
+
+- (void)sessionDidLoad{
+    
+}
+
+
+- (void)startRunningCaptureSession{
+    if(_sessionLoaded && !_running){
         dispatch_async(_sessionQueue, ^{
             [[self session] startRunning];
         });
     }
 }
 
--(void)stopRunningCaptureSession{
-    if(_loaded && _running){
+- (void)stopRunningCaptureSession{
+    if(_sessionLoaded && _running){
         dispatch_async(_sessionQueue, ^{
             [[self session] stopRunning];
         });
@@ -95,14 +128,32 @@
 }
 
 
--(void)setRunning:(BOOL)running{
+- (void)setRunning:(BOOL)running{
     running ? [self startRunningCaptureSession] : [self stopRunningCaptureSession];
     _running = running;
 }
 
--(void)configurePreloadedSession:(AVCaptureSession *)session error:(NSError *__autoreleasing *)error{
-    
+#pragma mark PresetSetter
+
+- (void)setSessionPreset:(NSString *)sessionPreset
+       completionHandler:(void (^)())completionHandler{
+    _sessionPreset = sessionPreset;
+    if(_sessionLoaded){
+        dispatch_async([self sessionQueue], ^{
+            [[self session] setCaptureSessionPreset:sessionPreset];
+            if(completionHandler != NULL){
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    completionHandler();
+                });
+            }
+        });
+    } else{
+        if(completionHandler != NULL){
+            completionHandler();
+        }
+    }
 }
+
 
 
 @end

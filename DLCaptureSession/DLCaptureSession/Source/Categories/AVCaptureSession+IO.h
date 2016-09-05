@@ -23,6 +23,9 @@
 #import <AVFoundation/AVFoundation.h>
 
 @interface AVCaptureSession (IO)
--(BOOL)addCaptureInput:(AVCaptureInput *)input;
--(BOOL)addCaptureOutput:(AVCaptureOutput *)output;
+
+- (BOOL)setCaptureSessionPreset:(NSString *)sessionPreset;
+- (BOOL)addCaptureInput:(AVCaptureInput *)input;
+- (BOOL)addCaptureOutput:(AVCaptureOutput *)output;
+
 @end

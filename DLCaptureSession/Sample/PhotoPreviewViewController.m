@@ -32,7 +32,7 @@
 
 
 
--(void)setupControls{
+- (void)setupControls{
     [_imageView setContentMode:UIViewContentModeScaleAspectFit];
     [_imageView setImage:_image];
     [_cancelButton addTarget:self action:@selector(cancelButtonTap) forControlEvents:UIControlEventTouchUpInside];
@@ -45,7 +45,7 @@
     // Do any additional setup after loading the view.
 }
 
--(void)setImage:(UIImage *)image{
+- (void)setImage:(UIImage *)image{
     _image = image;
     if(_imageView != nil){
         [_imageView setImage:image];
@@ -54,13 +54,13 @@
 
 
 
--(void)cancelButtonTap{
+- (void)cancelButtonTap{
     if(_delegate != nil && [_delegate respondsToSelector:@selector(previewViewControllerDidCancel:)]){
         [_delegate previewViewControllerDidCancel:self];
     }
 }
 
--(void)confirmButtonTap{
+- (void)confirmButtonTap{
     if(_delegate != nil && [_delegate respondsToSelector:@selector(previewViewControllerDidConfirm:)]){
         [_delegate previewViewControllerDidConfirm:self];
     }

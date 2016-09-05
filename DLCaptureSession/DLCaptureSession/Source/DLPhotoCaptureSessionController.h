@@ -20,35 +20,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "DLCaptureSessionController.h"
-#import <AVFoundation/AVCaptureInput.h>
-#import <AVFoundation/AVCaptureOutput.h>
+#import "DLVideoInCaptureSessionController.h"
 #import <UIKit/UIImage.h>
 
-@interface DLPhotoCaptureSessionController : DLCaptureSessionController
+@interface DLPhotoCaptureSessionController : DLVideoInCaptureSessionController
 
-@property(strong,nonatomic,readonly) AVCaptureStillImageOutput *stillCaptureImageOutput;
-@property(strong,nonatomic,readonly) AVCaptureDeviceInput *captureDeviceInput;
-
-
-@property(assign,nonatomic,readonly) AVCaptureFlashMode flashMode;
--(void)setFlashMode:(AVCaptureFlashMode)flashMode
-     successHandler:(void (^)())successHandler
-       errorHandler:(void (^)(NSError *error))errorHandler;
-
-@property(assign,nonatomic,readonly) AVCaptureDevicePosition cameraPosition;
--(void)setCameraPosition:(AVCaptureDevicePosition)captureDevicePosition
-          successHandler:(void (^)())successHandler
-            errorHandler:(void (^)(NSError *error))errorHandler;
-
-@property(strong,nonatomic,readonly) NSString *sessionPreset;
--(void)setSessionPreset:(NSString *)sessionPreset
-      completionHandler:(void (^)())completionHandler;
-
-
--(void)snapStillImageForOrientation:(AVCaptureVideoOrientation)orientation completion:(void(^)(UIImage *image))completionHandler
+- (void)snapStillImageForOrientation:(AVCaptureVideoOrientation)orientation completion:(void(^)(UIImage *image))completionHandler
                               error:(void(^)(NSError *error))errorHandler;
-
-
 
 @end

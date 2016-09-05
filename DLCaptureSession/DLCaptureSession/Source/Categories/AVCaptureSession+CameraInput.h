@@ -24,8 +24,6 @@
 
 @interface AVCaptureSession (CameraInput)
 
--(AVCaptureDeviceInput *)setCameraInputWithPosition:(AVCaptureDevicePosition)position error:(NSError *__autoreleasing *)error;
-
--(void)setupSessionPreset:(NSString *)sessionPreset;
+- (AVCaptureDeviceInput *)setCameraInputWithPosition:(AVCaptureDevicePosition)position error:(NSError *__autoreleasing *)error;
 
 @end

@@ -23,24 +23,22 @@
 #import "AVCaptureDevice+Authorization.h"
 
 @implementation AVCaptureDevice (Authorization)
-+(void)authorizeCameraCompletionHandler:(void(^)(BOOL granted))completionHandler{
+
++ (void)authorizeCameraCompletionHandler:(void(^)(BOOL granted))completionHandler{
     AVAuthorizationStatus authorizationStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
-    
     switch (authorizationStatus) {
         case AVAuthorizationStatusNotDetermined:{
-            NSLog(@"Camera AVAuthorizationStatusNotDetermined");
             [AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo completionHandler:completionHandler];
         }
             return;
+            
         case AVAuthorizationStatusRestricted:
-            NSLog(@"Camera AVAuthorizationStatusRestricted");
         case AVAuthorizationStatusDenied:{
-            NSLog(@"Camera AVAuthorizationStatusDenied");
             completionHandler(NO);
             return;
         }
+            
         case AVAuthorizationStatusAuthorized:
-            NSLog(@"Camera AVAuthorizationStatusAuthorized");
             completionHandler(YES);
             return;
             

@@ -21,19 +21,21 @@
 // THE SOFTWARE.
 
 #import "AVCaptureDevice+FlashMode.h"
+#import "NSError+DLCaptureSession.h"
 
 @implementation AVCaptureDevice (FlashMode)
 
--(void)setFlashMode:(AVCaptureFlashMode)flashMode error:(NSError *__autoreleasing *)error{
+- (void)setFlashMode:(AVCaptureFlashMode)flashMode error:(NSError *__autoreleasing *)error{
     if([self hasFlash] && [self isFlashModeSupported:flashMode]) {
         if([self lockForConfiguration:error]) {
             [self setFlashMode:flashMode];
             [self unlockForConfiguration];
         }
     }else{
-        if(error != nil){
-            *error = [[NSError alloc] initWithDomain:@"org.dlcamerasession" code:-3 userInfo:@{NSLocalizedDescriptionKey : @"DeviceHasNoFlashLight"}];
+        if(error != NULL){
+            *error = [NSError errorWithType:DLCaptureSessionErrorTypeDeviceNoFlashLight];
         }
+        
     }
 }
 

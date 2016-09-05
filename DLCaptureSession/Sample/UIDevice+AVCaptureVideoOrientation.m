@@ -23,7 +23,7 @@
 #import "UIDevice+AVCaptureVideoOrientation.h"
 
 @implementation UIDevice (AVCaptureVideoOrientation)
--(AVCaptureVideoOrientation)videoOrientation{
+- (AVCaptureVideoOrientation)videoOrientation{
     return [self videoOrientationFromDeviceOrientation:[self orientation]];
 }
 

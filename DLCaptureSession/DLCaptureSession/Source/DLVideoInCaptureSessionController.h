@@ -1,5 +1,5 @@
 //
-// AVCaptureDevice+Preferred.m
+// DLVideoInCaptureSessionController.h
 // Copyright (c) 2015 Dmitry Lizin (sdkdimon@gmail.com)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -20,12 +20,19 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "AVCaptureDevice+Preferred.h"
+#import "DLCaptureSessionController.h"
 
-@implementation AVCaptureDevice (Preferred)
-+(AVCaptureDevice *)preferredVideoCaptureDeviceWithPosition:(AVCaptureDevicePosition)position{
-    NSArray *avaliableVideoCaptureDevices = [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo];
-    AVCaptureDevice *captureDevice = [[avaliableVideoCaptureDevices filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self.position == %d",position]] firstObject];
-    return captureDevice;
-}
+@interface DLVideoInCaptureSessionController : DLCaptureSessionController
+
+@property(assign,nonatomic,readonly) AVCaptureFlashMode flashMode;
+- (void)setFlashMode:(AVCaptureFlashMode)flashMode
+      successHandler:(void (^)())successHandler
+        errorHandler:(void (^)(NSError *error))errorHandler;
+
+@property(assign,nonatomic,readonly) AVCaptureDevicePosition cameraPosition;
+- (void)setCameraPosition:(AVCaptureDevicePosition)captureDevicePosition
+           successHandler:(void (^)())successHandler
+             errorHandler:(void (^)(NSError *error))errorHandler;
+
+
 @end

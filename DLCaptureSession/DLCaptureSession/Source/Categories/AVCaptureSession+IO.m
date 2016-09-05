@@ -24,7 +24,17 @@
 
 @implementation AVCaptureSession (IO)
 
--(BOOL)addCaptureInput:(AVCaptureInput *)input{
+- (BOOL)setCaptureSessionPreset:(NSString *)sessionPreset{
+    BOOL canSetSessionPreset = [self canSetSessionPreset:sessionPreset];
+    if (canSetSessionPreset){
+        [self beginConfiguration];
+        [self setSessionPreset:sessionPreset];
+        [self commitConfiguration];
+    }
+    return canSetSessionPreset;
+}
+
+- (BOOL)addCaptureInput:(AVCaptureInput *)input{
     BOOL canAddInput = [self canAddInput:input];
     if(canAddInput){
         [self beginConfiguration];
@@ -34,7 +44,7 @@
     return canAddInput;
 }
 
--(BOOL)addCaptureOutput:(AVCaptureOutput *)output{
+- (BOOL)addCaptureOutput:(AVCaptureOutput *)output{
     BOOL canAddOutput = [self canAddOutput:output];
     if(canAddOutput){
         [self beginConfiguration];

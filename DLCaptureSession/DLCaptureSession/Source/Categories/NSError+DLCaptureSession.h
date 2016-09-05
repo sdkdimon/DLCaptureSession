@@ -1,5 +1,5 @@
 //
-// AVCaptureDevice+FlashMode.h
+// NSError+DLCaptureSession.h
 // Copyright (c) 2015 Dmitry Lizin (sdkdimon@gmail.com)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -20,10 +20,19 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import <AVFoundation/AVFoundation.h>
+#import <Foundation/Foundation.h>
 
-@interface AVCaptureDevice (FlashMode)
+typedef enum {
+    DLCaptureSessionErrorTypeUnknown = 0,
+    DLCaptureSessionErrorTypeUauthorized,
+    DLCaptureSessionErrorTypeSessionAddInputDevice,
+    DLCaptureSessionErrorTypeSessionAddOutputDevice,
+    DLCaptureSessionErrorTypeDeviceNoFlashLight
+    
+}DLCaptureSessionErrorType;
 
-- (void)setFlashMode:(AVCaptureFlashMode)flashMode error:(NSError **)error;
+@interface NSError (DLCaptureSession)
+
++ (NSError *)errorWithType:(DLCaptureSessionErrorType)errorType;
 
 @end

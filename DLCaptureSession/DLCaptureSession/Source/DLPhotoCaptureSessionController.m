@@ -21,57 +21,38 @@
 // THE SOFTWARE.
 
 #import "DLPhotoCaptureSessionController.h"
-#import "AVCaptureDevice+Preferred.h"
 #import "AVCaptureSession+IO.h"
-#import "AVCaptureSession+CameraInput.h"
-#import "AVCaptureDevice+FlashMode.h"
-
 #include <CGImageTools/CGImageTools.h>
+#import "NSError+DLCaptureSession.h"
 
 @interface DLPhotoCaptureSessionController ()
+
 @property(strong,nonatomic,readwrite) AVCaptureStillImageOutput *stillCaptureImageOutput;
-@property(strong,nonatomic,readwrite) AVCaptureDeviceInput *captureDeviceInput;
 
 @end
 
 @implementation DLPhotoCaptureSessionController
 
--(void)setup{
-    [super setup];
-    _cameraPosition = AVCaptureDevicePositionBack;
-    _sessionPreset = AVCaptureSessionPresetHigh;
-    _flashMode = AVCaptureFlashModeOff;
-}
-
-
-
 #pragma mark Configuration
 
--(void)configurePreloadedSession:(AVCaptureSession *)session error:(NSError *__autoreleasing *)error{
-    
-    AVCaptureDeviceInput *cameraDeviceInput = [session setCameraInputWithPosition:_cameraPosition error:error];
-    if(*error != nil){
-        return;
-    }
-    [[cameraDeviceInput device] setFlashMode:_flashMode error:nil];
-
+- (void)loadOutputsForSession:(AVCaptureSession *)session error:(NSError *__autoreleasing *)error{
     AVCaptureStillImageOutput *stillImageOutput = [[AVCaptureStillImageOutput alloc] init];
     [stillImageOutput setOutputSettings:@{AVVideoCodecKey : AVVideoCodecJPEG}];
     if(![session addCaptureOutput:stillImageOutput]){
-        *error = [[NSError alloc] initWithDomain:@"org.dlcamerasession" code:-2 userInfo:@{NSLocalizedDescriptionKey : @"CanAddCaptureDeviceOutput"}];
+        if (error != NULL){
+            *error = [NSError errorWithType:DLCaptureSessionErrorTypeSessionAddOutputDevice];
+        }
+        
         return;
     }
-    [session setupSessionPreset:_sessionPreset];
-    [self setCaptureDeviceInput:cameraDeviceInput];
     [self setStillCaptureImageOutput:stillImageOutput];
-
 }
 
 
 #pragma mark StillImageSnap
 
--(void)snapStillImageForOrientation:(AVCaptureVideoOrientation)orientation completion:(void (^)(UIImage *))completionHandler error:(void (^)(NSError *))errorHandler{
-    if([self isLoaded] && [self isRunning])  {
+- (void)snapStillImageForOrientation:(AVCaptureVideoOrientation)orientation completion:(void (^)(UIImage *))completionHandler error:(void (^)(NSError *))errorHandler{
+    if([self isSessionLoaded] && [self isRunning])  {
         dispatch_async([self sessionQueue], ^{
             AVCaptureStillImageOutput *stillCaptureImageOutput = [self stillCaptureImageOutput];
             AVCaptureConnection *connection = [stillCaptureImageOutput connectionWithMediaType:AVMediaTypeVideo];
@@ -121,103 +102,9 @@
     }
 }
 
-
-
-#pragma mark CameraPositionSetter
-
--(void)setCameraPosition:(AVCaptureDevicePosition)cameraPosition
-          successHandler:(void (^)())successHandler
-            errorHandler:(void (^)(NSError *))errorHandler{
-    _cameraPosition = cameraPosition;
-    if([self isLoaded]){
-        dispatch_async([self sessionQueue], ^{
-            NSError *error = nil;
-            AVCaptureDeviceInput *cameraDeviceInput = [[self session] setCameraInputWithPosition:cameraPosition error:&error];
-            if(error == nil){
-                [self setCaptureDeviceInput:cameraDeviceInput];
-                [[cameraDeviceInput device] setFlashMode:[self flashMode] error:nil];
-                if(successHandler != NULL){
-                    successHandler();
-                }
-            } else{
-                if(errorHandler != NULL){
-                    errorHandler(error);
-                }
-            }
-        });
-        
-    } else{
-        if(successHandler != NULL){
-            successHandler();
-        }
-    }
-    
-}
-
-
-
-#pragma mark FlashModeSetter
-
--(void)setFlashMode:(AVCaptureFlashMode)flashMode
-     successHandler:(void (^)())successHandler
-       errorHandler:(void (^)(NSError *))errorHandler{
-    _flashMode = flashMode;
-    if([self isLoaded]){
-        dispatch_async([self sessionQueue], ^{
-            AVCaptureDeviceInput *captureDeviceInput = [self captureDeviceInput];
-            NSError *error = nil;
-            [[captureDeviceInput device] setFlashMode:flashMode error:&error];
-            if(error == nil){
-                if(successHandler != NULL){
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        successHandler();
-                    });
-                }
-            } else{
-                if(errorHandler != NULL){
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        errorHandler(error);
-                    });
-                }
-            }
-        });
-    }else{
-        if(successHandler != NULL){
-            successHandler();
-        }
-    }
-}
-
-
-
-#pragma mark PresetSetter
-
--(void)setSessionPreset:(NSString *)sessionPreset
-      completionHandler:(void (^)())completionHandler{
-    
-    _sessionPreset = sessionPreset;
-    if([self isLoaded]){
-        dispatch_async([self sessionQueue], ^{
-            [[self session] setupSessionPreset:sessionPreset];
-            if(completionHandler != NULL){
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    completionHandler();
-                });
-            }
-        });
-    } else{
-        if(completionHandler != NULL){
-            completionHandler();
-        }
-    }
-}
-
-
-
-
 #pragma mark RotationFixDegree
 
--(CGFloat)rotateRadiansForVideoOrientation:(AVCaptureVideoOrientation)orientation{
+- (CGFloat)rotateRadiansForVideoOrientation:(AVCaptureVideoOrientation)orientation{
     
     CGFloat resultRadians = .0f;
     

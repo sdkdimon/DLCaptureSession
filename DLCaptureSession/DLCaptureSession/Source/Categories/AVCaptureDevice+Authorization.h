@@ -23,5 +23,7 @@
 #import <AVFoundation/AVFoundation.h>
 
 @interface AVCaptureDevice (Authorization)
-+(void)authorizeCameraCompletionHandler:(void(^)(BOOL granted))completionHandler;
+
++ (void)authorizeCameraCompletionHandler:(void(^)(BOOL granted))completionHandler;
+
 @end
