@@ -22,7 +22,7 @@
 		8A2FF8621C624D5C000E6D29 /* DLCaptureSessionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A2FF85A1C624D5C000E6D29 /* DLCaptureSessionController.m */; };
 		8A2FF8631C624D5C000E6D29 /* DLPhotoCaptureSessionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A2FF85C1C624D5C000E6D29 /* DLPhotoCaptureSessionController.m */; };
 		8A2FF8671C624F90000E6D29 /* libDLCaptureSession.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A2FF8441C624D17000E6D29 /* libDLCaptureSession.a */; };
-		8A475ECA1D79C37C00F6D83F /* DLQRCodeCaptureSessionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A475EC91D79C37C00F6D83F /* DLQRCodeCaptureSessionController.m */; };
+		8A475ECA1D79C37C00F6D83F /* DLMetadataCaptureSessionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A475EC91D79C37C00F6D83F /* DLMetadataCaptureSessionController.m */; };
 		8A7CF67C1D7D5DC800B737E5 /* DLVideoInCaptureSessionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A7CF67B1D7D5DC800B737E5 /* DLVideoInCaptureSessionController.m */; };
 		8A7CF67F1D7DA53400B737E5 /* NSError+DLCaptureSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A7CF67E1D7DA53400B737E5 /* NSError+DLCaptureSession.m */; };
 		8A7CF6891D7DBC9B00B737E5 /* QRCodeCaptureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A7CF6881D7DBC9B00B737E5 /* QRCodeCaptureViewController.m */; };
@@ -85,8 +85,8 @@
 		8A2FF85A1C624D5C000E6D29 /* DLCaptureSessionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLCaptureSessionController.m; sourceTree = "<group>"; };
 		8A2FF85B1C624D5C000E6D29 /* DLPhotoCaptureSessionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLPhotoCaptureSessionController.h; sourceTree = "<group>"; };
 		8A2FF85C1C624D5C000E6D29 /* DLPhotoCaptureSessionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLPhotoCaptureSessionController.m; sourceTree = "<group>"; };
-		8A475EC81D79C37C00F6D83F /* DLQRCodeCaptureSessionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLQRCodeCaptureSessionController.h; sourceTree = "<group>"; };
-		8A475EC91D79C37C00F6D83F /* DLQRCodeCaptureSessionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLQRCodeCaptureSessionController.m; sourceTree = "<group>"; };
+		8A475EC81D79C37C00F6D83F /* DLMetadataCaptureSessionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLMetadataCaptureSessionController.h; sourceTree = "<group>"; };
+		8A475EC91D79C37C00F6D83F /* DLMetadataCaptureSessionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLMetadataCaptureSessionController.m; sourceTree = "<group>"; };
 		8A7CF67A1D7D5DC800B737E5 /* DLVideoInCaptureSessionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLVideoInCaptureSessionController.h; sourceTree = "<group>"; };
 		8A7CF67B1D7D5DC800B737E5 /* DLVideoInCaptureSessionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLVideoInCaptureSessionController.m; sourceTree = "<group>"; };
 		8A7CF67D1D7DA53400B737E5 /* NSError+DLCaptureSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSError+DLCaptureSession.h"; sourceTree = "<group>"; };
@@ -193,8 +193,8 @@
 				8A2FF85A1C624D5C000E6D29 /* DLCaptureSessionController.m */,
 				8A2FF85B1C624D5C000E6D29 /* DLPhotoCaptureSessionController.h */,
 				8A2FF85C1C624D5C000E6D29 /* DLPhotoCaptureSessionController.m */,
-				8A475EC81D79C37C00F6D83F /* DLQRCodeCaptureSessionController.h */,
-				8A475EC91D79C37C00F6D83F /* DLQRCodeCaptureSessionController.m */,
+				8A475EC81D79C37C00F6D83F /* DLMetadataCaptureSessionController.h */,
+				8A475EC91D79C37C00F6D83F /* DLMetadataCaptureSessionController.m */,
 				8A7CF67A1D7D5DC800B737E5 /* DLVideoInCaptureSessionController.h */,
 				8A7CF67B1D7D5DC800B737E5 /* DLVideoInCaptureSessionController.m */,
 			);
@@ -542,7 +542,7 @@
 				8A2FF85D1C624D5C000E6D29 /* AVCaptureDevice+Authorization.m in Sources */,
 				8A7CF67F1D7DA53400B737E5 /* NSError+DLCaptureSession.m in Sources */,
 				8A2FF8611C624D5C000E6D29 /* AVCaptureSession+IO.m in Sources */,
-				8A475ECA1D79C37C00F6D83F /* DLQRCodeCaptureSessionController.m in Sources */,
+				8A475ECA1D79C37C00F6D83F /* DLMetadataCaptureSessionController.m in Sources */,
 				8A2FF8601C624D5C000E6D29 /* AVCaptureSession+CameraInput.m in Sources */,
 				8A2FF8631C624D5C000E6D29 /* DLPhotoCaptureSessionController.m in Sources */,
 				8A2FF8621C624D5C000E6D29 /* DLCaptureSessionController.m in Sources */,

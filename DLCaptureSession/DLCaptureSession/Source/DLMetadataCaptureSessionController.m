@@ -20,19 +20,24 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "DLQRCodeCaptureSessionController.h"
+#import "DLMetadataCaptureSessionController.h"
 #import "AVCaptureSession+IO.h"
 #import "AVCaptureSession+CameraInput.h"
 #import "AVCaptureDevice+FlashMode.h"
 #import "NSError+DLCaptureSession.h"
 
-@interface DLQRCodeCaptureSessionController () <AVCaptureMetadataOutputObjectsDelegate>
+@interface DLMetadataCaptureSessionController () <AVCaptureMetadataOutputObjectsDelegate>
 
 @property (strong, nonatomic, readwrite) AVCaptureOutput *outputDevice;
 
 @end
 
-@implementation DLQRCodeCaptureSessionController
+@implementation DLMetadataCaptureSessionController
+
+- (void)setup{
+    [super setup];
+    _captureEnabled = YES;
+}
 
 - (void)loadOutputsForSession:(AVCaptureSession *)session error:(NSError *__autoreleasing *)error{
     AVCaptureMetadataOutput *metadataOuput = [[AVCaptureMetadataOutput alloc] init];
@@ -47,14 +52,24 @@
     [self setOutputDevice:metadataOuput];
 }
 
+- (void)sessionDidLoad{
+    [super sessionDidLoad];
+    AVCaptureConnection *metadataCaptureConnection = [_outputDevice connectionWithMediaType:AVMediaTypeMetadata];
+    [metadataCaptureConnection setEnabled:_captureEnabled];
+}
+
+- (void)setCaptureEnabled:(BOOL)captureEnabled{
+    _captureEnabled = captureEnabled;
+    if ([self isSessionLoaded]){
+        AVCaptureConnection *metadataCaptureConnection = [_outputDevice connectionWithMediaType:AVMediaTypeMetadata];
+        [metadataCaptureConnection setEnabled:captureEnabled];
+    }
+}
 
 - (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputMetadataObjects:(NSArray *)metadataObjects fromConnection:(AVCaptureConnection *)connection{
-    
-    BOOL stopSession = NO;
-    if (_outputMetadataBlock != NULL){
-        _outputMetadataBlock(metadataObjects, &stopSession);
+    if (_delegate != nil && [_delegate conformsToProtocol:@protocol(DLMetadataCaptureSessionControllerDelegate)]){
+        [_delegate metadataCaptureSessionController:self didReceiveMetadataObjects:metadataObjects];
     }
-    [self setRunning:!stopSession];
 }
 
 @end

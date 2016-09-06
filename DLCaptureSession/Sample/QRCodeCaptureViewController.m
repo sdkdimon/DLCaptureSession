@@ -21,12 +21,12 @@
 // THE SOFTWARE.
 
 #import "QRCodeCaptureViewController.h"
-#import "DLQRCodeCaptureSessionController.h"
+#import "DLMetadataCaptureSessionController.h"
 #import "CameraCaptureVideoView.h"
 
-@interface QRCodeCaptureViewController()
+@interface QRCodeCaptureViewController() <DLMetadataCaptureSessionControllerDelegate>
 
-@property (strong, nonatomic, readwrite) DLQRCodeCaptureSessionController *captureSession;
+@property (strong, nonatomic, readwrite) DLMetadataCaptureSessionController *captureSession;
 @property (weak, nonatomic) IBOutlet CameraCaptureVideoView *previewView;
 
 @end
@@ -36,7 +36,8 @@
 
 - (void)viewDidLoad{
     [super viewDidLoad];
-    _captureSession = [[DLQRCodeCaptureSessionController alloc] init];
+    _captureSession = [[DLMetadataCaptureSessionController alloc] init];
+    [_captureSession setDelegate:self];
     [_captureSession setMetadataObjectTypes:@[AVMetadataObjectTypeQRCode]];
     [_captureSession loadSessionWithCompletion:^(AVCaptureSession *session) {
         [[[self previewView] layer] setSession:session];
@@ -44,20 +45,16 @@
     } error:^(NSError *error) {
         
     }];
-    
-    [_captureSession setOutputMetadataBlock:^(NSArray<AVMetadataObject *> *metadataObjects, BOOL *stopScanning) {
-        
-        for (AVMetadataObject *metadataObject in metadataObjects){
-            if ([[metadataObject type]isEqualToString:AVMetadataObjectTypeQRCode] && [metadataObject isKindOfClass:[AVMetadataMachineReadableCodeObject class]]){
-                AVMetadataMachineReadableCodeObject *readableMetadata = (AVMetadataMachineReadableCodeObject *)metadataObject;
-                NSLog(@"%@",[readableMetadata stringValue]);
-                *stopScanning = YES;
-            }
-        }
-        
-    }];
-    
+}
 
+- (void)metadataCaptureSessionController:(DLMetadataCaptureSessionController *)sessionController didReceiveMetadataObjects:(NSArray<AVMetadataObject *> *)metadataObjects{
+    for (AVMetadataObject *metadataObject in metadataObjects){
+        if ([[metadataObject type]isEqualToString:AVMetadataObjectTypeQRCode] && [metadataObject isKindOfClass:[AVMetadataMachineReadableCodeObject class]]){
+            AVMetadataMachineReadableCodeObject *readableMetadata = (AVMetadataMachineReadableCodeObject *)metadataObject;
+            NSLog(@"%@",[readableMetadata stringValue]);
+            [sessionController setCaptureEnabled:NO];
+        }
+    }
 }
 
 @end

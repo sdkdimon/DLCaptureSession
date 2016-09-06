@@ -27,7 +27,7 @@
 #import "UIDevice+AVCaptureVideoOrientation.h"
 #import "CGSizeAspectRatioTool/CGSizeAspectRatioTool.h"
 
-#import "DLQRCodeCaptureSessionController.h"
+#import "DLMetadataCaptureSessionController.h"
 
 
 

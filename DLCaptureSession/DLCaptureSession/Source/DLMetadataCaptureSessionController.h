@@ -22,9 +22,18 @@
 #import "DLVideoInCaptureSessionController.h"
 #import <AVFoundation/AVMetadataObject.h>
 
-@interface DLQRCodeCaptureSessionController : DLVideoInCaptureSessionController
+@class DLMetadataCaptureSessionController;
+
+@protocol DLMetadataCaptureSessionControllerDelegate <NSObject>
+
+- (void)metadataCaptureSessionController:(DLMetadataCaptureSessionController *)sessionController didReceiveMetadataObjects:(NSArray <AVMetadataObject *> *)metadataObjects;
+
+@end
+
+@interface DLMetadataCaptureSessionController : DLVideoInCaptureSessionController
 
 @property (strong, nonatomic, readwrite) NSArray <NSString *> *metadataObjectTypes;
-@property (strong, nonatomic, readwrite) void (^outputMetadataBlock)(NSArray <AVMetadataObject *>*, BOOL *stop);
+@property (weak, nonatomic, readwrite) id <DLMetadataCaptureSessionControllerDelegate> delegate;
+@property (assign, nonatomic, readwrite, getter=isCaptureEnabled) BOOL captureEnabled;
 
 @end
