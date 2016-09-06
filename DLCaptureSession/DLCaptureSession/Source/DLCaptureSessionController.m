@@ -47,11 +47,10 @@
 
 - (void)setup{
     _sessionPreset = AVCaptureSessionPresetHigh;
-    _running = NO;
     _sessionLoaded = NO;
 }
 
-- (void)loadSessionWithCompletion:(void (^)(AVCaptureSession *))completionHandler error:(void (^)(NSError *))errorHandler{
+- (void)loadSessionRunWhenLoaded:(BOOL)runWhenLoaded  completion:(void (^)(AVCaptureSession *))completionHandler error:(void (^)(NSError *))errorHandler{
     
     [AVCaptureDevice authorizeCameraCompletionHandler:^(BOOL granted) {
         if(granted){
@@ -75,13 +74,15 @@
                     [self setSession:captureSession];
                     [self setSessionQueue:captureSessionQueue];
                     [self setSessionLoaded:YES];
-                    dispatch_async( dispatch_get_main_queue(), ^{
+                    if (runWhenLoaded) {
+                        [captureSession startRunning];
+                    }
+                    dispatch_async(dispatch_get_main_queue(), ^{
                         completionHandler(captureSession);
                         [self sessionDidLoad];
                     });
                 } else{
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        [self setSession:nil];
                         errorHandler(error);
                     });
                 }
@@ -111,26 +112,55 @@
 }
 
 
-- (void)startRunningCaptureSession{
-    if(_sessionLoaded && !_running){
+- (void)startRunningCaptureSessionWithCompletion:(void (^)())completion{
+    if(_sessionLoaded){
         dispatch_async(_sessionQueue, ^{
             [[self session] startRunning];
+            if (completion != NULL){
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    completion();
+                });
+            }
         });
+    } else{
+        if (completion != NULL){
+            completion();
+        }
     }
 }
 
-- (void)stopRunningCaptureSession{
-    if(_sessionLoaded && _running){
+- (void)stopRunningCaptureSessionWithCompletion:(void (^)())completion{
+    if(_sessionLoaded){
         dispatch_async(_sessionQueue, ^{
             [[self session] stopRunning];
+            if (completion != NULL){
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    completion();
+                });
+            }
         });
+    } else{
+        if (completion != NULL){
+            completion();
+        }
     }
 }
 
+- (BOOL)isSesionRunning{
+    return [_session isRunning];
+}
 
-- (void)setRunning:(BOOL)running{
-    running ? [self startRunningCaptureSession] : [self stopRunningCaptureSession];
-    _running = running;
+- (void)setSessionRunning:(BOOL)running completion:(void (^)())completion{
+    if ([self isSesionRunning] != running){
+        running ? [self startRunningCaptureSessionWithCompletion:completion] : [self stopRunningCaptureSessionWithCompletion:completion];
+    } else{
+        if (completion != NULL){
+            completion();
+        }
+    }
+    
+    
+    
 }
 
 #pragma mark PresetSetter

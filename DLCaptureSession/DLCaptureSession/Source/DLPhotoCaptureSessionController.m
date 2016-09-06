@@ -52,7 +52,7 @@
 #pragma mark StillImageSnap
 
 - (void)snapStillImageForOrientation:(AVCaptureVideoOrientation)orientation completion:(void (^)(UIImage *))completionHandler error:(void (^)(NSError *))errorHandler{
-    if([self isSessionLoaded] && [self isRunning])  {
+    if([self isSessionLoaded] && [self isSesionRunning])  {
         dispatch_async([self sessionQueue], ^{
             AVCaptureStillImageOutput *stillCaptureImageOutput = [self stillCaptureImageOutput];
             AVCaptureConnection *connection = [stillCaptureImageOutput connectionWithMediaType:AVMediaTypeVideo];

@@ -39,9 +39,8 @@
     _captureSession = [[DLMetadataCaptureSessionController alloc] init];
     [_captureSession setDelegate:self];
     [_captureSession setMetadataObjectTypes:@[AVMetadataObjectTypeQRCode]];
-    [_captureSession loadSessionWithCompletion:^(AVCaptureSession *session) {
+    [_captureSession loadSessionRunWhenLoaded:YES completion:^(AVCaptureSession *session) {
         [[[self previewView] layer] setSession:session];
-        [[self captureSession] setRunning:YES];
     } error:^(NSError *error) {
         
     }];

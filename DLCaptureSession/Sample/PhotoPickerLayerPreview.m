@@ -59,9 +59,8 @@
 
     
     _captureSession = [[DLPhotoCaptureSessionController alloc] init];
-    [_captureSession loadSessionWithCompletion:^(AVCaptureSession *session) {
+    [_captureSession loadSessionRunWhenLoaded:YES completion:^(AVCaptureSession *session) {
         [[[self preview] layer] setSession:session];
-        [[self captureSession] setRunning:YES];
     } error:^(NSError *error) {
         
     }];
