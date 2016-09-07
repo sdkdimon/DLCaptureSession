@@ -59,11 +59,11 @@
 
     
     _captureSession = [[DLPhotoCaptureSessionController alloc] init];
-    [_captureSession loadSessionRunWhenLoaded:YES completion:^(AVCaptureSession *session) {
+    [_captureSession loadSessionWithCompletion:^(AVCaptureSession *session) {
         [[[self preview] layer] setSession:session];
     } error:^(NSError *error) {
         
-    }];
+    } runWhenLoaded:YES];
 }
 
 - (IBAction)updateFlashState:(id)sender {

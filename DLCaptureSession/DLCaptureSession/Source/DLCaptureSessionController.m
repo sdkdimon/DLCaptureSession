@@ -50,7 +50,11 @@
     _sessionLoaded = NO;
 }
 
-- (void)loadSessionRunWhenLoaded:(BOOL)runWhenLoaded  completion:(void (^)(AVCaptureSession *))completionHandler error:(void (^)(NSError *))errorHandler{
+- (void)loadSessionWithCompletion:(void (^)(AVCaptureSession *))completionHandler error:(void (^)(NSError *))errorHandler{
+    [self loadSessionWithCompletion:completionHandler error:errorHandler runWhenLoaded:NO];
+}
+
+- (void)loadSessionWithCompletion:(void (^)(AVCaptureSession *))completionHandler error:(void (^)(NSError *))errorHandler runWhenLoaded:(BOOL)runWhenLoaded{
     
     [AVCaptureDevice authorizeCameraCompletionHandler:^(BOOL granted) {
         if(granted){
@@ -74,13 +78,19 @@
                     [self setSession:captureSession];
                     [self setSessionQueue:captureSessionQueue];
                     [self setSessionLoaded:YES];
-                    if (runWhenLoaded) {
-                        [captureSession startRunning];
-                    }
-                    dispatch_async(dispatch_get_main_queue(), ^{
+                    
+                    void (^completeLoadingHandler)() = ^{
                         completionHandler(captureSession);
                         [self sessionDidLoad];
-                    });
+                    };
+                    
+                    if (runWhenLoaded){
+                        [self setSessionRunning:YES completion:completeLoadingHandler];
+                        
+                    } else{
+                        dispatch_async(dispatch_get_main_queue(), completeLoadingHandler);
+                    }
+
                 } else{
                     dispatch_async(dispatch_get_main_queue(), ^{
                         errorHandler(error);

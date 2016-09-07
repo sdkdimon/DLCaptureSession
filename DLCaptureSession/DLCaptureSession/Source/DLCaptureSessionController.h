@@ -35,7 +35,8 @@
 
 - (void)setup;
 
-- (void)loadSessionRunWhenLoaded:(BOOL)runWhenLoaded completion:(void(^)(AVCaptureSession *session))completionHandler error:(void(^)(NSError *error))errorHandler;
+- (void)loadSessionWithCompletion:(void(^)(AVCaptureSession *session))completionHandler error:(void(^)(NSError *error))errorHandler;
+- (void)loadSessionWithCompletion:(void(^)(AVCaptureSession *session))completionHandler error:(void(^)(NSError *error))errorHandler runWhenLoaded:(BOOL)runWhenLoaded;
 
 - (void)loadInputsForSession:(AVCaptureSession *)session error:(NSError **)error;
 - (void)loadOutputsForSession:(AVCaptureSession *)session error:(NSError **)error;
