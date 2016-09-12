@@ -25,6 +25,9 @@
 #import "AVCaptureSession+CameraInput.h"
 #import "AVCaptureDevice+FlashMode.h"
 #import "NSError+DLCaptureSession.h"
+#import <UIKit/UIDevice.h>
+
+#define IS_OS_9_OR_LATER ([[[UIDevice currentDevice] systemVersion] floatValue] >= 9.0)
 
 @interface DLMetadataCaptureSessionController () <AVCaptureMetadataOutputObjectsDelegate>
 
@@ -52,16 +55,21 @@
     [self setOutputDevice:metadataOuput];
 }
 
+- (AVCaptureConnection *)metadataConnection{
+    NSString *mediaType = IS_OS_9_OR_LATER ? AVMediaTypeMetadataObject : AVMediaTypeMetadata;
+    return [_outputDevice connectionWithMediaType:mediaType];
+}
+
 - (void)sessionDidLoad{
     [super sessionDidLoad];
-    AVCaptureConnection *metadataCaptureConnection = [_outputDevice connectionWithMediaType:AVMediaTypeMetadata];
+    AVCaptureConnection *metadataCaptureConnection = [self metadataConnection];
     [metadataCaptureConnection setEnabled:_captureEnabled];
 }
 
 - (void)setCaptureEnabled:(BOOL)captureEnabled{
     _captureEnabled = captureEnabled;
     if ([self isSessionLoaded]){
-        AVCaptureConnection *metadataCaptureConnection = [_outputDevice connectionWithMediaType:AVMediaTypeMetadata];
+        AVCaptureConnection *metadataCaptureConnection = [self metadataConnection];
         [metadataCaptureConnection setEnabled:captureEnabled];
     }
 }
