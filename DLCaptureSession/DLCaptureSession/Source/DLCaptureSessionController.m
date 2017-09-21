@@ -65,21 +65,24 @@
                 NSError *error = nil;
                 [self loadInputsForSession:captureSession error:&error];
                 if (error != nil){
-                    errorHandler(error);
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        errorHandler(error);
+                    });
+                    return;
                 }
                 [self loadOutputsForSession:captureSession error:&error];
                 if (error != nil){
                     dispatch_async(dispatch_get_main_queue(), ^{
                         errorHandler(error);
                     });
-                    errorHandler(error);
+                    return;
                 }
                 if(error == nil){
                     [self setSession:captureSession];
                     [self setSessionQueue:captureSessionQueue];
                     [self setSessionLoaded:YES];
                     
-                    void (^completeLoadingHandler)() = ^{
+                    void (^completeLoadingHandler)(void) = ^{
                         completionHandler(captureSession);
                         [self sessionDidLoad];
                     };
@@ -95,13 +98,16 @@
                     dispatch_async(dispatch_get_main_queue(), ^{
                         errorHandler(error);
                     });
+                    return;
                 }
             });
         } else{
             if (errorHandler != NULL){
-                errorHandler([NSError errorWithType:DLCaptureSessionErrorTypeUauthorized]);
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    errorHandler([NSError errorWithType:DLCaptureSessionErrorTypeUnauthorized]);
+                });
+                return;
             }
-            
         }
     }];
 
@@ -122,7 +128,7 @@
 }
 
 
-- (void)startRunningCaptureSessionWithCompletion:(void (^)())completion{
+- (void)startRunningCaptureSessionWithCompletion:(void (^)(void))completion{
     if(_sessionLoaded){
         dispatch_async(_sessionQueue, ^{
             [[self session] startRunning];
@@ -139,7 +145,7 @@
     }
 }
 
-- (void)stopRunningCaptureSessionWithCompletion:(void (^)())completion{
+- (void)stopRunningCaptureSessionWithCompletion:(void (^)(void))completion{
     if(_sessionLoaded){
         dispatch_async(_sessionQueue, ^{
             [[self session] stopRunning];
@@ -160,7 +166,7 @@
     return [_session isRunning];
 }
 
-- (void)setSessionRunning:(BOOL)running completion:(void (^)())completion{
+- (void)setSessionRunning:(BOOL)running completion:(void (^)(void))completion{
     if ([self isSesionRunning] != running){
         running ? [self startRunningCaptureSessionWithCompletion:completion] : [self stopRunningCaptureSessionWithCompletion:completion];
     } else{
@@ -176,7 +182,7 @@
 #pragma mark PresetSetter
 
 - (void)setSessionPreset:(NSString *)sessionPreset
-       completionHandler:(void (^)())completionHandler{
+       completionHandler:(void (^)(void))completionHandler{
     _sessionPreset = sessionPreset;
     if(_sessionLoaded){
         dispatch_async([self sessionQueue], ^{

@@ -26,12 +26,12 @@
 
 @property(assign,nonatomic,readonly) AVCaptureFlashMode flashMode;
 - (void)setFlashMode:(AVCaptureFlashMode)flashMode
-      successHandler:(void (^)())successHandler
+      successHandler:(void (^)(void))successHandler
         errorHandler:(void (^)(NSError *error))errorHandler;
 
 @property(assign,nonatomic,readonly) AVCaptureDevicePosition cameraPosition;
 - (void)setCameraPosition:(AVCaptureDevicePosition)captureDevicePosition
-           successHandler:(void (^)())successHandler
+           successHandler:(void (^)(void))successHandler
              errorHandler:(void (^)(NSError *error))errorHandler;
 
 

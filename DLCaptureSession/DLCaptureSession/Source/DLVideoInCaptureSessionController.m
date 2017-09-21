@@ -52,7 +52,7 @@
 #pragma mark CameraPositionSetter
 
 - (void)setCameraPosition:(AVCaptureDevicePosition)cameraPosition
-           successHandler:(void (^)())successHandler
+           successHandler:(void (^)(void))successHandler
              errorHandler:(void (^)(NSError *))errorHandler{
     _cameraPosition = cameraPosition;
     if([self isSessionLoaded]){
@@ -85,7 +85,7 @@
 #pragma mark FlashModeSetter
 
 - (void)setFlashMode:(AVCaptureFlashMode)flashMode
-      successHandler:(void (^)())successHandler
+      successHandler:(void (^)(void))successHandler
         errorHandler:(void (^)(NSError *))errorHandler{
     _flashMode = flashMode;
     if([self isSessionLoaded]){

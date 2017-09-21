@@ -27,7 +27,7 @@
 #import "NSError+DLCaptureSession.h"
 #import <UIKit/UIDevice.h>
 
-#define IS_OS_9_OR_LATER ([[[UIDevice currentDevice] systemVersion] floatValue] >= 9.0)
+#define MEDIA_TYPE_METADATA (([[[UIDevice currentDevice] systemVersion] floatValue] >= 9.0) ? AVMediaTypeMetadataObject : AVMediaTypeMetadata)
 
 @interface DLMetadataCaptureSessionController () <AVCaptureMetadataOutputObjectsDelegate>
 
@@ -37,36 +37,53 @@
 
 @implementation DLMetadataCaptureSessionController
 
-- (void)setup{
+- (void)setup
+{
     [super setup];
     _captureEnabled = YES;
 }
 
-- (void)loadOutputsForSession:(AVCaptureSession *)session error:(NSError *__autoreleasing *)error{
+- (void)loadOutputsForSession:(AVCaptureSession *)session error:(NSError *__autoreleasing *)error
+{
     AVCaptureMetadataOutput *metadataOuput = [[AVCaptureMetadataOutput alloc] init];
     [metadataOuput setMetadataObjectsDelegate:self queue:dispatch_get_main_queue()];
-    if (![session addCaptureOutput:metadataOuput]){
-        if (error != NULL){
+    if (![session addCaptureOutput:metadataOuput])
+    {
+        if (error != NULL)
+        {
             *error = [NSError errorWithType:DLCaptureSessionErrorTypeSessionAddOutputDevice];
         }
         return;
     }
+    
+    NSArray <NSString *> *availableMetadataObjectTypes = metadataOuput.availableMetadataObjectTypes;
+    for (NSString *metadataObjectType in _metadataObjectTypes)
+    {
+        if (![availableMetadataObjectTypes containsObject:metadataObjectType])
+        {
+            *error = [NSError errorWithType:DLCaptureSessionErrorTypeDeviceUnsupportedMetadataObjectType];
+            return;
+        }
+    }
+    
     [metadataOuput setMetadataObjectTypes:_metadataObjectTypes];
     [self setOutputDevice:metadataOuput];
 }
 
-- (AVCaptureConnection *)metadataConnection{
-    NSString *mediaType = IS_OS_9_OR_LATER ? AVMediaTypeMetadataObject : AVMediaTypeMetadata;
-    return [_outputDevice connectionWithMediaType:mediaType];
+- (AVCaptureConnection *)metadataConnection
+{
+    return [_outputDevice connectionWithMediaType:MEDIA_TYPE_METADATA];
 }
 
-- (void)sessionDidLoad{
+- (void)sessionDidLoad
+{
     [super sessionDidLoad];
     AVCaptureConnection *metadataCaptureConnection = [self metadataConnection];
     [metadataCaptureConnection setEnabled:_captureEnabled];
 }
 
-- (void)setCaptureEnabled:(BOOL)captureEnabled{
+- (void)setCaptureEnabled:(BOOL)captureEnabled
+{
     _captureEnabled = captureEnabled;
     if ([self isSessionLoaded]){
         AVCaptureConnection *metadataCaptureConnection = [self metadataConnection];
@@ -74,8 +91,10 @@
     }
 }
 
-- (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputMetadataObjects:(NSArray *)metadataObjects fromConnection:(AVCaptureConnection *)connection{
-    if (_delegate != nil && [_delegate conformsToProtocol:@protocol(DLMetadataCaptureSessionControllerDelegate)]){
+- (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputMetadataObjects:(NSArray *)metadataObjects fromConnection:(AVCaptureConnection *)connection
+{
+    if (_delegate != nil && [_delegate conformsToProtocol:@protocol(DLMetadataCaptureSessionControllerDelegate)])
+    {
         [_delegate metadataCaptureSessionController:self didReceiveMetadataObjects:metadataObjects];
     }
 }

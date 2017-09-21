@@ -42,7 +42,7 @@
     [_captureSession loadSessionWithCompletion:^(AVCaptureSession *session) {
         [[[self previewView] layer] setSession:session];
     } error:^(NSError *error) {
-        
+        NSLog(@"");
     } runWhenLoaded:YES];
 }
 

@@ -26,17 +26,20 @@ NSString * const ERROR_DOMAIN = @"org.sdkdimon.dlcapturesession";
 
 @implementation NSError (DLCaptureSession)
 
-+ (NSError *)errorWithType:(DLCaptureSessionErrorType)errorType{
++ (NSError *)errorWithType:(DLCaptureSessionErrorType)errorType
+{
     return [[NSError alloc] initWithDomain:ERROR_DOMAIN code:errorType userInfo:[[self userInfoMap] objectForKey:@(errorType)]];
 }
 
 
-+ (NSDictionary <NSNumber *, NSDictionary <NSString *, NSString *> *> *)userInfoMap{
-    return @{@(DLCaptureSessionErrorTypeUauthorized) : @{NSLocalizedDescriptionKey : @"Device unautorized"},
++ (NSDictionary <NSNumber *, NSDictionary <NSString *, NSString *> *> *)userInfoMap
+{
+    return @{@(DLCaptureSessionErrorTypeUnauthorized) : @{NSLocalizedDescriptionKey : @"Device unautorized"},
              @(DLCaptureSessionErrorTypeSessionAddInputDevice) : @{NSLocalizedDescriptionKey : @"Can't add input device"},
              @(DLCaptureSessionErrorTypeSessionAddOutputDevice) : @{NSLocalizedDescriptionKey : @"Can't add output device"},
-             @(DLCaptureSessionErrorTypeDeviceNoFlashLight) : @{NSLocalizedDescriptionKey : @"Device has no flashlight"}};
-    
+             @(DLCaptureSessionErrorTypeDeviceNoFlashLight) : @{NSLocalizedDescriptionKey : @"Device has no flashlight"},
+             @(DLCaptureSessionErrorTypeDeviceUnsupportedMetadataObjectType) : @{NSLocalizedDescriptionKey : @"Used metadata object type unsupported"}
+             };
 }
 
 @end

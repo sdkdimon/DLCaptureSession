@@ -24,10 +24,11 @@
 
 typedef enum {
     DLCaptureSessionErrorTypeUnknown = 0,
-    DLCaptureSessionErrorTypeUauthorized,
+    DLCaptureSessionErrorTypeUnauthorized,
     DLCaptureSessionErrorTypeSessionAddInputDevice,
     DLCaptureSessionErrorTypeSessionAddOutputDevice,
-    DLCaptureSessionErrorTypeDeviceNoFlashLight
+    DLCaptureSessionErrorTypeDeviceNoFlashLight,
+    DLCaptureSessionErrorTypeDeviceUnsupportedMetadataObjectType
     
 }DLCaptureSessionErrorType;
 

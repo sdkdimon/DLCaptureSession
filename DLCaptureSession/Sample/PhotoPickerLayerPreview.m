@@ -68,7 +68,7 @@
 
 - (IBAction)updateFlashState:(id)sender {
     
-    AVCaptureFlashMode currentFlashMode;
+    AVCaptureFlashMode currentFlashMode = AVCaptureFlashModeOff;
     
     switch ([_captureSession flashMode]) {
         case AVCaptureFlashModeOff:

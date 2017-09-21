@@ -31,7 +31,7 @@
 @property(assign,nonatomic,readonly,getter=isSessionLoaded) BOOL sessionLoaded;
 
 - (BOOL)isSesionRunning;
-- (void)setSessionRunning:(BOOL)running completion:(void(^)())completion;
+- (void)setSessionRunning:(BOOL)running completion:(void(^)(void))completion;
 
 - (void)setup;
 
@@ -45,7 +45,7 @@
 
 @property(strong,nonatomic,readonly) NSString *sessionPreset;
 - (void)setSessionPreset:(NSString *)sessionPreset
-       completionHandler:(void (^)())completionHandler;
+       completionHandler:(void (^)(void))completionHandler;
 
 
 @end
