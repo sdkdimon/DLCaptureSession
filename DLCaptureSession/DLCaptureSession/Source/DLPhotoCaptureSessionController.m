@@ -60,7 +60,6 @@
                 if (imageDataSampleBuffer != nil) {
                     // The sample buffer is not retained. Create image data before saving the still image.
                     NSData *imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
-                    
                     CGImageRef sourceImage = CGImageCreateWithJPEGData((__bridge CFDataRef)imageData);
                     //Rotate image
                     CGImageRef fixRotationimage = CGImageRotateToRadians(sourceImage, [self rotateRadiansForVideoOrientation:orientation]);
@@ -77,13 +76,12 @@
                                 imageFlipDirection = CGImageFlipDirectionHorizontal;
                                 break;
                             default:
-                                [NSException raise:NSInvalidArgumentException format:@"%s Unknown orientation",__PRETTY_FUNCTION__];
+                                NSAssert(NO, @"%s Unknown orientation",__PRETTY_FUNCTION__);
                                 break;
                         }
                         outImage = CGImageFlip(fixRotationimage, imageFlipDirection);
                         CGImageRelease(fixRotationimage);
                     }
-                    
                     
                     UIImage *image = [UIImage imageWithCGImage:outImage scale:1.0f orientation:UIImageOrientationUp];
                     CGImageRelease(sourceImage);

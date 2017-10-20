@@ -5,7 +5,7 @@
 
 platform :ios, '8.0'
 
-xcodeproj 'DLCaptureSession.xcodeproj'
+project 'DLCaptureSession.xcodeproj'
 
 target 'Sample' do
 pod 'CGSizeAspectRatioTool', '1.0'

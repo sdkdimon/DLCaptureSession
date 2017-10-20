@@ -22,14 +22,16 @@
 
 #include "CGImageTools.h"
 
-CGImageRef CGImageCreateWithJPEGData(CFDataRef jpegImageData){
+CGImageRef CGImageCreateWithJPEGData(CFDataRef jpegImageData)
+{
     CGDataProviderRef imgageDataProvider = CGDataProviderCreateWithCFData(jpegImageData);
     CGImageRef imageRef = CGImageCreateWithJPEGDataProvider(imgageDataProvider, NULL, true, kCGRenderingIntentDefault);
     CFRelease(imgageDataProvider);
     return imageRef;
 }
 
-CGImageRef CGImageRotateToRadians(CGImageRef image, CGFloat radians){
+CGImageRef CGImageRotateToRadians(CGImageRef image, CGFloat radians)
+{
     
     CGFloat imageWidth = CGImageGetWidth(image);
     CGFloat imageHeight = CGImageGetHeight(image);
@@ -45,7 +47,7 @@ CGImageRef CGImageRotateToRadians(CGImageRef image, CGFloat radians){
     CGContextSetAllowsAntialiasing(bmContext, true);
     CGContextSetInterpolationQuality(bmContext, kCGInterpolationHigh);
     
-   
+    
     
     /// Rotation happen here (around the center)
     CGContextTranslateCTM(bmContext, +(rotatedRect.size.width / 2.0f), +(rotatedRect.size.height / 2.0f));
@@ -60,7 +62,8 @@ CGImageRef CGImageRotateToRadians(CGImageRef image, CGFloat radians){
     return resultImageRef;
 }
 
-CGImageRef CGImageFlip(CGImageRef image, CGImageFlipDirection flipDirection){
+CGImageRef CGImageFlip(CGImageRef image, CGImageFlipDirection flipDirection)
+{
     
     CGAffineTransform transform = CGAffineTransformIdentity;
     CGRect rect = CGRectZero;
@@ -68,9 +71,10 @@ CGImageRef CGImageFlip(CGImageRef image, CGImageFlipDirection flipDirection){
     CGFloat imageWidth = CGImageGetWidth(image);
     CGFloat imageHeight = CGImageGetHeight(image);
     
-    switch (flipDirection) {
-        case CGImageFlipDirectionNone:
-            return image;
+    CGImageRef flippedImageRef = NULL;
+    
+    switch (flipDirection)
+    {
         case CGImageFlipDirectionHorizontal:
             transform = CGAffineTransformMakeScale(- 1.0f, 1.0f);
             rect = CGRectMake(- imageWidth, .0f, imageWidth, imageHeight);
@@ -80,20 +84,19 @@ CGImageRef CGImageFlip(CGImageRef image, CGImageFlipDirection flipDirection){
             transform = CGAffineTransformMakeScale(1.0f, - 1.0f);
             rect = CGRectMake(.0f, - imageHeight, imageWidth, imageHeight);
             break;
+            
+        case CGImageFlipDirectionNone:
+        default:
+            flippedImageRef = CGImageCreateCopy(image);
+            return flippedImageRef;
     }
-    
-     CGContextRef bmContext = CGBitmapContextCreate(NULL, imageWidth,imageHeight, CGImageGetBitsPerComponent(image), CGImageGetBytesPerRow(image), CGImageGetColorSpace(image), CGImageGetAlphaInfo(image));
-    /// Image quality
+    CGContextRef bmContext = CGBitmapContextCreate(NULL, imageWidth,imageHeight, CGImageGetBitsPerComponent(image), CGImageGetBytesPerRow(image), CGImageGetColorSpace(image), CGImageGetAlphaInfo(image));
     CGContextSetShouldAntialias(bmContext, true);
     CGContextSetAllowsAntialiasing(bmContext, true);
     CGContextSetInterpolationQuality(bmContext, kCGInterpolationHigh);
-    
     CGContextConcatCTM(bmContext, transform);
     CGContextDrawImage(bmContext, rect, image);
-    
-    CGImageRef flippedImageRef = CGBitmapContextCreateImage(bmContext);
+    flippedImageRef = CGBitmapContextCreateImage(bmContext);
     CGContextRelease(bmContext);
     return flippedImageRef;
 }
-
-

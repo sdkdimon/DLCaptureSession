@@ -90,7 +90,7 @@
 
 - (IBAction)takePhoto:(UIButton *)sender {
     [sender setEnabled:NO];
-    [_captureSession snapStillImageForOrientation:[_preview videoOrientation] completion:^(UIImage *image) {
+    [_captureSession snapStillImageForOrientation:0 completion:^(UIImage *image) {
         [sender setEnabled:YES];
         PhotoPreviewViewController *previewViewController = [[PhotoPreviewViewController alloc] initWithNibName:@"PhotoPreviewView" bundle:nil];
         [previewViewController setImage:[self cropImage:image toSize:[[self preview] bounds].size]];
