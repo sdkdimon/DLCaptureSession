@@ -24,6 +24,7 @@
 #import "AVCaptureSession+IO.h"
 #import "AVCaptureSession+CameraInput.h"
 #import "AVCaptureDevice+FlashMode.h"
+#import "AVCaptureDevice+TorchMode.h"
 
 @interface DLVideoInCaptureSessionController ()
 
@@ -108,6 +109,36 @@
             }
         });
     }else{
+        if(successHandler != NULL){
+            successHandler();
+        }
+    }
+}
+
+#pragma mark TorchModeSetter
+
+- (void)setTorchMode:(AVCaptureTorchMode)torchMode successHandler:(void (^)(void))successHandler errorHandler:(void (^)(NSError *))errorHandler{
+    _torchMode = torchMode;
+    if([self isSessionLoaded]){
+        dispatch_async([self sessionQueue], ^{
+            AVCaptureDeviceInput *captureDeviceInput = [self captureDeviceInput];
+            NSError *error = nil;
+            [[captureDeviceInput device] setTorchMode:torchMode error:&error];
+            if (error == nil) {
+                if(successHandler != NULL){
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        successHandler();
+                    });
+                }
+            } else {
+                if(errorHandler != NULL){
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        errorHandler(error);
+                    });
+                }
+            }
+        });
+    } else {
         if(successHandler != NULL){
             successHandler();
         }
