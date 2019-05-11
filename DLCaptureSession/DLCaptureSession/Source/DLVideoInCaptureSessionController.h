@@ -29,10 +29,14 @@
       successHandler:(void (^)(void))successHandler
         errorHandler:(void (^)(NSError *error))errorHandler;
 
+@property(assign,nonatomic,readonly) AVCaptureTorchMode torchMode;
+- (void)setTorchMode:(AVCaptureTorchMode)torchMode
+      successHandler:(void (^)(void))successHandler
+        errorHandler:(void (^)(NSError *error))errorHandler;
+
 @property(assign,nonatomic,readonly) AVCaptureDevicePosition cameraPosition;
 - (void)setCameraPosition:(AVCaptureDevicePosition)captureDevicePosition
            successHandler:(void (^)(void))successHandler
              errorHandler:(void (^)(NSError *error))errorHandler;
-
 
 @end

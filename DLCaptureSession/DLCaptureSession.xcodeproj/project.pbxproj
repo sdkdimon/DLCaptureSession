@@ -33,6 +33,7 @@
 		8AD0EFE71C62489E005CF4FF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8AD0EFE51C62489E005CF4FF /* Main.storyboard */; };
 		8AD0EFE91C62489E005CF4FF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8AD0EFE81C62489E005CF4FF /* Assets.xcassets */; };
 		8AD0EFEC1C62489E005CF4FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8AD0EFEA1C62489E005CF4FF /* LaunchScreen.storyboard */; };
+		EA9ADB2E2285D70B00D6BC83 /* AVCaptureDevice+TorchMode.m in Sources */ = {isa = PBXBuildFile; fileRef = EA9ADB2D2285D70B00D6BC83 /* AVCaptureDevice+TorchMode.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -106,6 +107,8 @@
 		91E99BB8CAF2CC75E7F7F6EE /* Pods-DLCaptureSession.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DLCaptureSession.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DLCaptureSession/Pods-DLCaptureSession.debug.xcconfig"; sourceTree = "<group>"; };
 		C4FACC31E04A1BD14B80823A /* Pods-Sample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sample.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Sample/Pods-Sample.debug.xcconfig"; sourceTree = "<group>"; };
 		D9BF4855EA2C99A51F8E9572 /* Pods-Sample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sample.release.xcconfig"; path = "Pods/Target Support Files/Pods-Sample/Pods-Sample.release.xcconfig"; sourceTree = "<group>"; };
+		EA9ADB2C2285D70B00D6BC83 /* AVCaptureDevice+TorchMode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AVCaptureDevice+TorchMode.h"; sourceTree = "<group>"; };
+		EA9ADB2D2285D70B00D6BC83 /* AVCaptureDevice+TorchMode.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "AVCaptureDevice+TorchMode.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -235,6 +238,7 @@
 		8A7CF6811D7DA62700B737E5 /* Device */ = {
 			isa = PBXGroup;
 			children = (
+				EA9ADB2B2285D6D200D6BC83 /* TorchMode */,
 				8A7CF6831D7DA65400B737E5 /* FlashMode */,
 				8A7CF6821D7DA64A00B737E5 /* Authorization */,
 			);
@@ -359,6 +363,15 @@
 			name = Main;
 			sourceTree = "<group>";
 		};
+		EA9ADB2B2285D6D200D6BC83 /* TorchMode */ = {
+			isa = PBXGroup;
+			children = (
+				EA9ADB2C2285D70B00D6BC83 /* AVCaptureDevice+TorchMode.h */,
+				EA9ADB2D2285D70B00D6BC83 /* AVCaptureDevice+TorchMode.m */,
+			);
+			name = TorchMode;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -425,6 +438,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -551,6 +565,7 @@
 				8A2FF8611C624D5C000E6D29 /* AVCaptureSession+IO.m in Sources */,
 				8A475ECA1D79C37C00F6D83F /* DLMetadataCaptureSessionController.m in Sources */,
 				8A2FF8601C624D5C000E6D29 /* AVCaptureSession+CameraInput.m in Sources */,
+				EA9ADB2E2285D70B00D6BC83 /* AVCaptureDevice+TorchMode.m in Sources */,
 				8A2FF8631C624D5C000E6D29 /* DLPhotoCaptureSessionController.m in Sources */,
 				8A2FF8621C624D5C000E6D29 /* DLCaptureSessionController.m in Sources */,
 			);

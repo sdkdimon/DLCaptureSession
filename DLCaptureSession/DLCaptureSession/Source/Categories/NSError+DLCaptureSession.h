@@ -28,7 +28,8 @@ typedef enum {
     DLCaptureSessionErrorTypeSessionAddInputDevice,
     DLCaptureSessionErrorTypeSessionAddOutputDevice,
     DLCaptureSessionErrorTypeDeviceNoFlashLight,
-    DLCaptureSessionErrorTypeDeviceUnsupportedMetadataObjectType
+    DLCaptureSessionErrorTypeDeviceNoTorch,
+	DLCaptureSessionErrorTypeDeviceUnsupportedMetadataObjectType
     
 }DLCaptureSessionErrorType;
 

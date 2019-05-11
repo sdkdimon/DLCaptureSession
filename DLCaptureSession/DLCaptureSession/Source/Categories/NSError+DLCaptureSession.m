@@ -38,6 +38,7 @@ NSString * const ERROR_DOMAIN = @"org.sdkdimon.dlcapturesession";
              @(DLCaptureSessionErrorTypeSessionAddInputDevice) : @{NSLocalizedDescriptionKey : @"Can't add input device"},
              @(DLCaptureSessionErrorTypeSessionAddOutputDevice) : @{NSLocalizedDescriptionKey : @"Can't add output device"},
              @(DLCaptureSessionErrorTypeDeviceNoFlashLight) : @{NSLocalizedDescriptionKey : @"Device has no flashlight"},
+             @(DLCaptureSessionErrorTypeDeviceNoTorch) : @{NSLocalizedDescriptionKey : @"Device has no torch"},
              @(DLCaptureSessionErrorTypeDeviceUnsupportedMetadataObjectType) : @{NSLocalizedDescriptionKey : @"Used metadata object type unsupported"}
              };
 }
