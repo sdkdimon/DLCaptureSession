@@ -21,13 +21,10 @@
 // THE SOFTWARE.
 
 #import "DLMetadataCaptureSessionController.h"
+
 #import "AVCaptureSession+IO.h"
 #import "AVCaptureSession+CameraInput.h"
-#import "AVCaptureDevice+FlashMode.h"
 #import "NSError+DLCaptureSession.h"
-#import <UIKit/UIDevice.h>
-
-#define MEDIA_TYPE_METADATA (([[[UIDevice currentDevice] systemVersion] floatValue] >= 9.0) ? AVMediaTypeMetadataObject : AVMediaTypeMetadata)
 
 @interface DLMetadataCaptureSessionController () <AVCaptureMetadataOutputObjectsDelegate>
 
@@ -72,7 +69,7 @@
 
 - (AVCaptureConnection *)metadataConnection
 {
-    return [_outputDevice connectionWithMediaType:MEDIA_TYPE_METADATA];
+    return [_outputDevice connectionWithMediaType:AVMediaTypeMetadataObject];
 }
 
 - (void)sessionDidLoad

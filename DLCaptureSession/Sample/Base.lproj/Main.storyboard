@@ -1,8 +1,10 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--Main View Controller-->
@@ -14,39 +16,30 @@
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RSa-34-Rl7">
-                                <rect key="frame" x="207" y="40" width="186" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RSa-34-Rl7">
+                                <rect key="frame" x="114" y="64" width="186" height="30"/>
                                 <state key="normal" title="Photo Picker Layer Preview"/>
                                 <connections>
                                     <action selector="showPhotoPicker:" destination="BYZ-38-t0r" eventType="touchUpInside" id="4hE-Ha-EPC"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zbf-8F-jKx">
-                                <rect key="frame" x="198" y="90" width="205" height="30"/>
-                                <state key="normal" title="Photo Picker OpenGL Preview"/>
-                                <connections>
-                                    <action selector="showGLPhotoPicker:" destination="BYZ-38-t0r" eventType="touchUpInside" id="88b-vn-nCf"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R7y-Fb-ghl">
-                                <rect key="frame" x="246" y="138" width="108" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R7y-Fb-ghl">
+                                <rect key="frame" x="153" y="162" width="108" height="30"/>
                                 <state key="normal" title="QR Code Picker"/>
                                 <connections>
                                     <action selector="showMetadataPicker:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ryC-Lv-gnk"/>
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="Zbf-8F-jKx" firstAttribute="top" secondItem="RSa-34-Rl7" secondAttribute="bottom" constant="20" id="6uc-cQ-lM8"/>
+                            <constraint firstItem="R7y-Fb-ghl" firstAttribute="top" secondItem="RSa-34-Rl7" secondAttribute="bottom" constant="68" id="0nk-Aa-g1O"/>
                             <constraint firstItem="R7y-Fb-ghl" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="bmx-pj-CYB"/>
                             <constraint firstItem="RSa-34-Rl7" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="ePe-lX-wYj"/>
                             <constraint firstItem="RSa-34-Rl7" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="20" id="fCR-Ab-YFV"/>
-                            <constraint firstItem="Zbf-8F-jKx" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="pX6-Qy-sMj"/>
-                            <constraint firstItem="R7y-Fb-ghl" firstAttribute="top" secondItem="Zbf-8F-jKx" secondAttribute="bottom" constant="18" id="vwM-1g-NZV"/>
                         </constraints>
                     </view>
                 </viewController>

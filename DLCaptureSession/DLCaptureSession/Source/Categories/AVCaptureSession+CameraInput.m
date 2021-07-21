@@ -21,6 +21,7 @@
 // THE SOFTWARE.
 
 #import "AVCaptureSession+CameraInput.h"
+
 #import "AVCaptureSession+IO.h"
 #import "NSError+DLCaptureSession.h"
 
@@ -33,13 +34,11 @@
 @implementation AVCaptureDevice (Preferred)
 
 + (AVCaptureDevice *)preferredVideoCaptureDeviceWithPosition:(AVCaptureDevicePosition)position{
-    NSArray <AVCaptureDevice *> *avaliableVideoCaptureDevices = [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo];
-    for (AVCaptureDevice *captureDevice in avaliableVideoCaptureDevices){
-        if ([captureDevice position] == position){
-            return captureDevice;
-        }
-    }
-    return [avaliableVideoCaptureDevices firstObject];
+    AVCaptureDeviceDiscoverySession* captureDeviceDiscoverySession =
+    [AVCaptureDeviceDiscoverySession discoverySessionWithDeviceTypes:@[AVCaptureDeviceTypeBuiltInWideAngleCamera]
+                                                           mediaType:AVMediaTypeVideo
+                                                            position:position];
+    return captureDeviceDiscoverySession.devices.firstObject;
 }
 
 @end

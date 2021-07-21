@@ -21,9 +21,9 @@
 // THE SOFTWARE.
 
 #import "DLVideoInCaptureSessionController.h"
+
 #import "AVCaptureSession+IO.h"
 #import "AVCaptureSession+CameraInput.h"
-#import "AVCaptureDevice+FlashMode.h"
 #import "AVCaptureDevice+TorchMode.h"
 
 @interface DLVideoInCaptureSessionController ()
@@ -36,8 +36,8 @@
 
 - (void)setup{
     [super setup];
-    _cameraPosition = AVCaptureDevicePositionBack;
-    
+    self->_cameraPosition = AVCaptureDevicePositionBack;
+    self->_torchMode = AVCaptureTorchModeOff;
 }
 
 - (void)loadInputsForSession:(AVCaptureSession *)session error:(NSError *__autoreleasing *)error{
@@ -45,10 +45,8 @@
     if(*error != nil){
         return;
     }
-    [[cameraDeviceInput device] setFlashMode:_flashMode error:nil];
     [self setCaptureDeviceInput:cameraDeviceInput];
 }
-
 
 #pragma mark CameraPositionSetter
 
@@ -62,7 +60,6 @@
             AVCaptureDeviceInput *cameraDeviceInput = [[self session] setCameraInputWithPosition:cameraPosition error:&error];
             if(error == nil){
                 [self setCaptureDeviceInput:cameraDeviceInput];
-                [[cameraDeviceInput device] setFlashMode:[self flashMode] error:nil];
                 if(successHandler != NULL){
                     successHandler();
                 }
@@ -79,40 +76,6 @@
         }
     }
     
-}
-
-
-
-#pragma mark FlashModeSetter
-
-- (void)setFlashMode:(AVCaptureFlashMode)flashMode
-      successHandler:(void (^)(void))successHandler
-        errorHandler:(void (^)(NSError *))errorHandler{
-    _flashMode = flashMode;
-    if([self isSessionLoaded]){
-        dispatch_async([self sessionQueue], ^{
-            AVCaptureDeviceInput *captureDeviceInput = [self captureDeviceInput];
-            NSError *error = nil;
-            [[captureDeviceInput device] setFlashMode:flashMode error:&error];
-            if(error == nil){
-                if(successHandler != NULL){
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        successHandler();
-                    });
-                }
-            } else{
-                if(errorHandler != NULL){
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        errorHandler(error);
-                    });
-                }
-            }
-        });
-    }else{
-        if(successHandler != NULL){
-            successHandler();
-        }
-    }
 }
 
 #pragma mark TorchModeSetter

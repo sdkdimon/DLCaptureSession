@@ -31,7 +31,7 @@
 
 
 
-@interface PhotoPickerLayerPreview () <PhotoPreviewViewControllerDelegate>
+@interface PhotoPickerLayerPreview () <PhotoPreviewViewControllerDelegate, DLPhotoCaptureSessionControllerDelegate>
 @property (weak, nonatomic) IBOutlet CameraCaptureVideoView *preview;
 @property(strong,nonatomic,readwrite) DLPhotoCaptureSessionController *captureSession;
 
@@ -59,6 +59,7 @@
 
     
     _captureSession = [[DLPhotoCaptureSessionController alloc] init];
+    _captureSession.delegate = self;
     [_captureSession loadSessionWithCompletion:^(AVCaptureSession *session) {
         [[[self preview] layer] setSession:session];
     } error:^(NSError *error) {
@@ -68,41 +69,30 @@
 
 - (IBAction)updateFlashState:(id)sender {
     
-    AVCaptureFlashMode currentFlashMode = AVCaptureFlashModeOff;
+    AVCaptureTorchMode currentFlashMode = AVCaptureTorchModeOff;
     
-    switch ([_captureSession flashMode]) {
-        case AVCaptureFlashModeOff:
+    switch ([_captureSession torchMode]) {
+        case AVCaptureTorchModeOff:
             
-            currentFlashMode = AVCaptureFlashModeOn;
+            currentFlashMode = AVCaptureTorchModeOn;
             break;
-        case AVCaptureFlashModeOn:
-            currentFlashMode = AVCaptureFlashModeOff;
+        case AVCaptureTorchModeOn:
+            currentFlashMode = AVCaptureTorchModeOff;
             break;
             
         default:
             break;
     }
     
-    [_captureSession setFlashMode:currentFlashMode successHandler:nil errorHandler:nil];
+    [_captureSession setTorchMode:currentFlashMode successHandler:nil errorHandler:nil];
     
     
 }
 
 - (IBAction)takePhoto:(UIButton *)sender {
-    [sender setEnabled:NO];
-    [_captureSession snapStillImageForOrientation:0 completion:^(UIImage *image) {
-        [sender setEnabled:YES];
-        PhotoPreviewViewController *previewViewController = [[PhotoPreviewViewController alloc] initWithNibName:@"PhotoPreviewView" bundle:nil];
-        [previewViewController setImage:[self cropImage:image toSize:[[self preview] bounds].size]];
-        [previewViewController setDelegate:self];
-        [self presentViewController:previewViewController animated:YES completion:nil];
-    } error:^(NSError *error) {
-        
-    }];
-    
-
-
+    [self.captureSession capturePhotoForOrientation:[UIDevice.currentDevice videoOrientation]];
 }
+
 - (IBAction)updateCamPosition:(id)sender {
     AVCaptureDevicePosition currentPosition = AVCaptureDevicePositionUnspecified;
     
@@ -188,6 +178,14 @@
 
 - (void)dealloc{
     
+}
+
+- (void)photoCaptureSessionController:(DLPhotoCaptureSessionController*)sessionController
+                      didCapturePhoto:(nullable UIImage *)image error:(nullable NSError *)error {
+    PhotoPreviewViewController *previewViewController = [[PhotoPreviewViewController alloc] initWithNibName:@"PhotoPreviewView" bundle:nil];
+    [previewViewController setImage:[self cropImage:image toSize:[[self preview] bounds].size]];
+    [previewViewController setDelegate:self];
+    [self presentViewController:previewViewController animated:YES completion:nil];
 }
 
 @end

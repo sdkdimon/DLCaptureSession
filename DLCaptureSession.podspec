@@ -1,14 +1,14 @@
 Pod::Spec.new do |s|
   s.name             = "DLCaptureSession"
-  s.version          = "0.0.1"
+  s.version          = "0.2.0"
   s.summary          = "DLCaptureSession."
   s.homepage         = "https://github.com/sdkdimon/DLCaptureSession"
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { "Dmitry Lizin" => "sdkdimon@gmail.com" }
   s.source           = { :git => "https://github.com/sdkdimon/DLCaptureSession.git", :tag => s.version }
 
-  s.platform     = :ios, '7.0'
-  s.ios.deployment_target = '7.0'
+  s.platform     = :ios, '11.0'
+  s.ios.deployment_target = '11.0'
   s.requires_arc = true
 
   s.pod_target_xcconfig = { 'OTHER_LDFLAGS' => '-ObjC' }

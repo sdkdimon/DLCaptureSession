@@ -33,8 +33,12 @@ typedef enum {
     
 }DLCaptureSessionErrorType;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface NSError (DLCaptureSession)
 
 + (NSError *)errorWithType:(DLCaptureSessionErrorType)errorType;
 
 @end
+
+NS_ASSUME_NONNULL_END

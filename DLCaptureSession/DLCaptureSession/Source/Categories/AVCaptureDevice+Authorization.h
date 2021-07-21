@@ -22,8 +22,12 @@
 
 #import <AVFoundation/AVFoundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface AVCaptureDevice (Authorization)
 
 + (void)authorizeCameraCompletionHandler:(void(^)(BOOL granted))completionHandler;
 
 @end
+
+NS_ASSUME_NONNULL_END

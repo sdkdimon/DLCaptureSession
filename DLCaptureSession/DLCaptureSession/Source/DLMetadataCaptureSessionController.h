@@ -19,14 +19,19 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
+
 #import "DLVideoInCaptureSessionController.h"
+
 #import <AVFoundation/AVMetadataObject.h>
+
+NS_ASSUME_NONNULL_BEGIN
 
 @class DLMetadataCaptureSessionController;
 
 @protocol DLMetadataCaptureSessionControllerDelegate <NSObject>
 
-- (void)metadataCaptureSessionController:(DLMetadataCaptureSessionController *)sessionController didReceiveMetadataObjects:(NSArray <AVMetadataObject *> *)metadataObjects;
+- (void)metadataCaptureSessionController:(DLMetadataCaptureSessionController *)sessionController
+               didReceiveMetadataObjects:(NSArray <AVMetadataObject *> *)metadataObjects;
 
 @end
 
@@ -37,3 +42,5 @@
 @property (assign, nonatomic, readwrite, getter=isCaptureEnabled) BOOL captureEnabled;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -22,6 +22,8 @@
 
 #import <AVFoundation/AVFoundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface AVCaptureSession (IO)
 
 - (BOOL)setCaptureSessionPreset:(NSString *)sessionPreset;
@@ -29,3 +31,5 @@
 - (BOOL)addCaptureOutput:(AVCaptureOutput *)output;
 
 @end
+
+NS_ASSUME_NONNULL_END

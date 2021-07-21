@@ -1,5 +1,5 @@
     //
-    // AVCaptureDevice+FlashMode.h
+    // AVCaptureDevice+TorchMode.h
     // Copyright (c) 2015 Dmitry Lizin (sdkdimon@gmail.com)
     //
     // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -22,8 +22,12 @@
 
 #import <AVFoundation/AVFoundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface AVCaptureDevice (TorchMode)
 
 - (void)setTorchMode:(AVCaptureTorchMode)torchMode error:(NSError **)error;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -21,11 +21,29 @@
 // THE SOFTWARE.
 
 #import "DLVideoInCaptureSessionController.h"
+
 #import <UIKit/UIImage.h>
+
+NS_ASSUME_NONNULL_BEGIN
+
+@class DLPhotoCaptureSessionController;
+
+@protocol DLPhotoCaptureSessionControllerDelegate <NSObject>
+
+- (void)photoCaptureSessionController:(DLPhotoCaptureSessionController*)sessionController
+                      didCapturePhoto:(nullable UIImage*)image
+                                error:(nullable NSError*)error;
+
+@end
 
 @interface DLPhotoCaptureSessionController : DLVideoInCaptureSessionController
 
-- (void)snapStillImageForOrientation:(AVCaptureVideoOrientation)orientation completion:(void(^)(UIImage *image))completionHandler
-                              error:(void(^)(NSError *error))errorHandler;
+@property (strong, nonatomic, readwrite) id <DLPhotoCaptureSessionControllerDelegate> delegate;
+
+@property (assign, nonatomic, readwrite) AVCaptureFlashMode flashMode;
+
+- (void)capturePhotoForOrientation:(AVCaptureVideoOrientation)orientation;
 
 @end
+
+NS_ASSUME_NONNULL_END

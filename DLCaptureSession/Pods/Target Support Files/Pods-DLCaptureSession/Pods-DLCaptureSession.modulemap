@@ -1,0 +1,6 @@
+framework module Pods_DLCaptureSession {
+  umbrella header "Pods-DLCaptureSession-umbrella.h"
+
+  export *
+  module * { export * }
+}

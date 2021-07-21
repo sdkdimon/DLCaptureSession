@@ -1,0 +1,6 @@
+framework module CGImageTools {
+  umbrella header "CGImageTools-umbrella.h"
+
+  export *
+  module * { export * }
+}

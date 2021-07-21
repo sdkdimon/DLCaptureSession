@@ -21,82 +21,61 @@
 // THE SOFTWARE.
 
 #import "DLPhotoCaptureSessionController.h"
+
 #import "AVCaptureSession+IO.h"
 #include <CGImageTools/CGImageTools.h>
 #import "NSError+DLCaptureSession.h"
 
-@interface DLPhotoCaptureSessionController ()
+@interface DLPhotoCaptureSessionController () <AVCapturePhotoCaptureDelegate>
 
-@property(strong,nonatomic,readwrite) AVCaptureStillImageOutput *stillCaptureImageOutput;
+@property (strong, nonatomic, readonly) AVCapturePhotoOutput *capturePhotoOutput;
+@property (strong, nonatomic, readonly) AVCaptureConnection *videoConnection;
+@property (strong, nonatomic, readonly) AVCapturePhotoSettings *capturePhotoSettings;
 
 @end
 
 @implementation DLPhotoCaptureSessionController
 
+- (void)setup {
+    [super setup];
+    self.flashMode = AVCaptureFlashModeOff;
+}
+
+- (AVCaptureConnection*)videoConnection {
+    return [self.capturePhotoOutput connectionWithMediaType:AVMediaTypeVideo];
+}
+
+- (AVCapturePhotoSettings*)capturePhotoSettings {
+    AVCapturePhotoSettings* capturePhotoSettings = [AVCapturePhotoSettings photoSettingsWithFormat:@{AVVideoCodecKey : AVVideoCodecTypeJPEG}];
+    if ([self.capturePhotoOutput.supportedFlashModes containsObject:@(self.flashMode)]){
+        capturePhotoSettings.flashMode = self.flashMode;
+    }
+    return capturePhotoSettings;
+}
+
 #pragma mark Configuration
 
 - (void)loadOutputsForSession:(AVCaptureSession *)session error:(NSError *__autoreleasing *)error{
-    AVCaptureStillImageOutput *stillImageOutput = [[AVCaptureStillImageOutput alloc] init];
-    [stillImageOutput setOutputSettings:@{AVVideoCodecKey : AVVideoCodecJPEG}];
-    if(![session addCaptureOutput:stillImageOutput]){
+    AVCapturePhotoOutput *capturePhotoOutput = [[AVCapturePhotoOutput alloc] init];
+    if(![session addCaptureOutput:capturePhotoOutput]){
         if (error != NULL){
             *error = [NSError errorWithType:DLCaptureSessionErrorTypeSessionAddOutputDevice];
         }
-        
         return;
     }
-    [self setStillCaptureImageOutput:stillImageOutput];
+    self->_capturePhotoOutput = capturePhotoOutput;
 }
 
 
 #pragma mark StillImageSnap
 
-- (void)snapStillImageForOrientation:(AVCaptureVideoOrientation)orientation completion:(void (^)(UIImage *))completionHandler error:(void (^)(NSError *))errorHandler{
+- (void)capturePhotoForOrientation:(AVCaptureVideoOrientation)orientation {
     if([self isSessionLoaded] && [self isSesionRunning])  {
         dispatch_async([self sessionQueue], ^{
-            AVCaptureStillImageOutput *stillCaptureImageOutput = [self stillCaptureImageOutput];
-            AVCaptureConnection *connection = [stillCaptureImageOutput connectionWithMediaType:AVMediaTypeVideo];
-            [stillCaptureImageOutput captureStillImageAsynchronouslyFromConnection:connection completionHandler:^( CMSampleBufferRef imageDataSampleBuffer, NSError *error ) {
-                if (imageDataSampleBuffer != nil) {
-                    // The sample buffer is not retained. Create image data before saving the still image.
-                    NSData *imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
-                    CGImageRef sourceImage = CGImageCreateWithJPEGData((__bridge CFDataRef)imageData);
-                    //Rotate image
-                    CGImageRef fixRotationimage = CGImageRotateToRadians(sourceImage, [self rotateRadiansForVideoOrientation:orientation]);
-                    CGImageRef outImage = fixRotationimage;
-                    if([self cameraPosition] == AVCaptureDevicePositionFront){
-                        CGImageFlipDirection imageFlipDirection = CGImageFlipDirectionNone;
-                        switch (orientation) {
-                            case AVCaptureVideoOrientationLandscapeLeft:
-                            case AVCaptureVideoOrientationLandscapeRight:
-                                imageFlipDirection = CGImageFlipDirectionVertical;
-                                break;
-                            case AVCaptureVideoOrientationPortrait:
-                            case AVCaptureVideoOrientationPortraitUpsideDown:
-                                imageFlipDirection = CGImageFlipDirectionHorizontal;
-                                break;
-                            default:
-                                NSAssert(NO, @"%s Unknown orientation",__PRETTY_FUNCTION__);
-                                break;
-                        }
-                        outImage = CGImageFlip(fixRotationimage, imageFlipDirection);
-                        CGImageRelease(fixRotationimage);
-                    }
-                    
-                    UIImage *image = [UIImage imageWithCGImage:outImage scale:1.0f orientation:UIImageOrientationUp];
-                    CGImageRelease(sourceImage);
-                    CGImageRelease(outImage);
-                    
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        completionHandler(image);
-                    });
-                }else {
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        errorHandler(error);
-                    });
-                }
-            }];
-        } );
+            self.videoConnection.videoOrientation = orientation;
+            [self.capturePhotoOutput capturePhotoWithSettings:self.capturePhotoSettings
+                                                     delegate:self];
+        });
     }
 }
 
@@ -133,6 +112,34 @@
     
 }
 
-
+- (void)captureOutput:(AVCapturePhotoOutput *)output didFinishProcessingPhoto:(AVCapturePhoto *)photo error:(nullable NSError *)error {
+    UIImage* image = nil;
+    if (error == nil) {
+        CGImageRef sourceImage = photo.CGImageRepresentation;
+        CGImageRef fixRotationimage = CGImageRotateToRadians(sourceImage, [self rotateRadiansForVideoOrientation:self.videoConnection.videoOrientation]);
+        CGImageRef outImage = fixRotationimage;
+        if([self cameraPosition] == AVCaptureDevicePositionFront){
+            CGImageFlipDirection imageFlipDirection = CGImageFlipDirectionNone;
+            switch (self.videoConnection.videoOrientation) {
+                case AVCaptureVideoOrientationLandscapeLeft:
+                case AVCaptureVideoOrientationLandscapeRight:
+                    imageFlipDirection = CGImageFlipDirectionVertical;
+                    break;
+                case AVCaptureVideoOrientationPortrait:
+                case AVCaptureVideoOrientationPortraitUpsideDown:
+                    imageFlipDirection = CGImageFlipDirectionHorizontal;
+                    break;
+                default:
+                    NSAssert(NO, @"%s Unknown orientation",__PRETTY_FUNCTION__);
+                    break;
+            }
+            outImage = CGImageFlip(fixRotationimage, imageFlipDirection);
+            CGImageRelease(fixRotationimage);
+        }
+        
+        image = [UIImage imageWithCGImage:outImage scale:1.0f orientation:UIImageOrientationUp];
+    }
+    [self.delegate photoCaptureSessionController:self didCapturePhoto:image error:error];
+}
 
 @end

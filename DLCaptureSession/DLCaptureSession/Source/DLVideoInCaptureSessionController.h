@@ -22,21 +22,20 @@
 
 #import "DLCaptureSessionController.h"
 
-@interface DLVideoInCaptureSessionController : DLCaptureSessionController
+NS_ASSUME_NONNULL_BEGIN
 
-@property(assign,nonatomic,readonly) AVCaptureFlashMode flashMode;
-- (void)setFlashMode:(AVCaptureFlashMode)flashMode
-      successHandler:(void (^)(void))successHandler
-        errorHandler:(void (^)(NSError *error))errorHandler;
+@interface DLVideoInCaptureSessionController : DLCaptureSessionController
 
 @property(assign,nonatomic,readonly) AVCaptureTorchMode torchMode;
 - (void)setTorchMode:(AVCaptureTorchMode)torchMode
-      successHandler:(void (^)(void))successHandler
-        errorHandler:(void (^)(NSError *error))errorHandler;
+      successHandler:(void (^ _Nullable )(void))successHandler
+        errorHandler:(void (^ _Nullable )(NSError *error))errorHandler;
 
 @property(assign,nonatomic,readonly) AVCaptureDevicePosition cameraPosition;
 - (void)setCameraPosition:(AVCaptureDevicePosition)captureDevicePosition
-           successHandler:(void (^)(void))successHandler
-             errorHandler:(void (^)(NSError *error))errorHandler;
+           successHandler:(void (^ _Nullable )(void))successHandler
+             errorHandler:(void (^ _Nullable )(NSError *error))errorHandler;
 
 @end
+
+NS_ASSUME_NONNULL_END
