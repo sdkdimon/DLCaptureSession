@@ -34,22 +34,22 @@ NS_ASSUME_NONNULL_BEGIN
 @property(assign,nonatomic,readonly,getter=isSessionLoaded) BOOL sessionLoaded;
 
 - (BOOL)isSesionRunning;
-- (void)setSessionRunning:(BOOL)running completion:(void(^)(void))completion;
+- (void)setSessionRunning:(BOOL)running completion:(void(^ _Nullable )(void))completion;
 
 - (void)setup;
 
 - (void)loadSessionWithCompletion:(void(^)(AVCaptureSession *session))completionHandler error:(void(^)(NSError *error))errorHandler;
 - (void)loadSessionWithCompletion:(void(^)(AVCaptureSession *session))completionHandler error:(void(^)(NSError *error))errorHandler runWhenLoaded:(BOOL)runWhenLoaded;
 
-- (void)loadInputsForSession:(AVCaptureSession *)session error:(NSError **)error;
-- (void)loadOutputsForSession:(AVCaptureSession *)session error:(NSError **)error;
+- (void)loadInputsForSession:(AVCaptureSession *)session error:(NSError * _Nullable *)error;
+- (void)loadOutputsForSession:(AVCaptureSession *)session error:(NSError * _Nullable *)error;
 
 - (void)sessionDidLoad;
 
 @property(strong,nonatomic,readonly) NSString *sessionPreset;
-- (void)setSessionPreset:(NSString *)sessionPreset
-       completionHandler:(void (^)(void))completionHandler;
 
+- (void)setSessionPreset:(NSString *)sessionPreset
+       completionHandler:(void (^ _Nullable )(void))completionHandler;
 
 @end
 

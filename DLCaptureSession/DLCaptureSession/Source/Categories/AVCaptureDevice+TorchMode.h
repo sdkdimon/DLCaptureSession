@@ -26,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface AVCaptureDevice (TorchMode)
 
-- (void)setTorchMode:(AVCaptureTorchMode)torchMode error:(NSError **)error;
+- (void)setTorchMode:(AVCaptureTorchMode)torchMode error:(NSError * _Nullable *)error;
 
 @end
 

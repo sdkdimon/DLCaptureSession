@@ -26,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface AVCaptureSession (CameraInput)
 
-- (AVCaptureDeviceInput *)setCameraInputWithPosition:(AVCaptureDevicePosition)position error:(NSError *__autoreleasing *)error;
+- (AVCaptureDeviceInput *)setCameraInputWithPosition:(AVCaptureDevicePosition)position error:(NSError * _Nullable __autoreleasing *)error;
 
 @end
 

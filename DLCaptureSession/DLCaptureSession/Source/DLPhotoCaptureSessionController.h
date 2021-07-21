@@ -31,14 +31,14 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol DLPhotoCaptureSessionControllerDelegate <NSObject>
 
 - (void)photoCaptureSessionController:(DLPhotoCaptureSessionController*)sessionController
-                      didCapturePhoto:(nullable UIImage*)image
-                                error:(nullable NSError*)error;
+                      didCapturePhoto:(UIImage* _Nullable )image
+                                error:(NSError* _Nullable )error;
 
 @end
 
 @interface DLPhotoCaptureSessionController : DLVideoInCaptureSessionController
 
-@property (strong, nonatomic, readwrite) id <DLPhotoCaptureSessionControllerDelegate> delegate;
+@property (weak, nonatomic, readwrite) id <DLPhotoCaptureSessionControllerDelegate> delegate;
 
 @property (assign, nonatomic, readwrite) AVCaptureFlashMode flashMode;
 
